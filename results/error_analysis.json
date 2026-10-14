@@ -1,0 +1,195 @@
+{
+  "metadata": {
+    "created_at_utc": "2026-10-14T18:04:31.575082+00:00",
+    "dataset": "data\\sample_dataset.jsonl",
+    "dataset_examples": 75,
+    "dataset_sha256": "8843f1f21e5c6d7ac23ca4ebe969d3be18523744904f250cde390850197e5164",
+    "label_order": [
+      "account_access",
+      "billing",
+      "technical_support"
+    ],
+    "python_version": "3.12.7",
+    "random_state": 42,
+    "scikit_learn_version": "1.9.1",
+    "test_examples": 19,
+    "test_size": 0.25,
+    "train_examples": 56
+  },
+  "misclassified_examples": [
+    {
+      "index": 34,
+      "is_error": true,
+      "predicted_label": "technical_support",
+      "text": "I switched to a lower tier yesterday and want to understand when the new monthly price takes effect.",
+      "true_label": "billing"
+    },
+    {
+      "index": 11,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 46,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "Images attached to support tickets appear as broken links for everyone on our team.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 55,
+      "is_error": true,
+      "predicted_label": "account_access",
+      "text": "Our saved dashboard view resets to the default filters every time I sign back in.",
+      "true_label": "technical_support"
+    }
+  ],
+  "per_class_error_counts": {
+    "account_access": 0,
+    "billing": 1,
+    "technical_support": 3
+  },
+  "summary": {
+    "accuracy": 0.7894736842105263,
+    "error_rate": 0.21052631578947367,
+    "total_errors": 4,
+    "total_test_examples": 19
+  },
+  "test_predictions": [
+    {
+      "index": 36,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "We paid the outstanding invoice by bank transfer. Can you confirm it was matched to our account?",
+      "true_label": "billing"
+    },
+    {
+      "index": 26,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "How do I revoke active login sessions on other devices after suspecting a security compromise?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 27,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "The verification SMS code for login is not being delivered to my registered mobile number.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 34,
+      "is_error": true,
+      "predicted_label": "technical_support",
+      "text": "I switched to a lower tier yesterday and want to understand when the new monthly price takes effect.",
+      "true_label": "billing"
+    },
+    {
+      "index": 31,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Could you add our purchase order number to the invoice for this month's subscription?",
+      "true_label": "billing"
+    },
+    {
+      "index": 17,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "API requests to the /v1/users endpoint are consistently returning a 504 Gateway Timeout.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 64,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "The identity provider says sign-in succeeded, but TaskTune sends me back to the login screen.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 35,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "The invoice lists two active seats for a coworker who left our company last month.",
+      "true_label": "billing"
+    },
+    {
+      "index": 40,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Can our finance team receive one combined invoice instead of separate charges for each workspace?",
+      "true_label": "billing"
+    },
+    {
+      "index": 9,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "My coupon code SAVE20 was not applied during checkout and I was charged the full price.",
+      "true_label": "billing"
+    },
+    {
+      "index": 49,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Our integration started returning an authentication error even though the API key has not changed.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 11,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 54,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The calendar integration duplicates each meeting when it syncs with Outlook.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 46,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "Images attached to support tickets appear as broken links for everyone on our team.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 16,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The mobile app audio output is muted during video playback on Android devices.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 60,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I no longer have access to the email address where password reset links are sent.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 55,
+      "is_error": true,
+      "predicted_label": "account_access",
+      "text": "Our saved dashboard view resets to the default filters every time I sign back in.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 68,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I can sign in on my laptop, but my new tablet keeps saying my credentials are incorrect.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 70,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I am still receiving login approval requests for a device I sold last month.",
+      "true_label": "account_access"
+    }
+  ]
+}
