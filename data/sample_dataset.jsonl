@@ -1,0 +1,75 @@
+{"text": "I noticed an unexpected charge of $49 on my monthly invoice that I did not authorize.", "label": "billing"}
+{"text": "Can you please send me a receipt for my subscription payment from last week?", "label": "billing"}
+{"text": "I was double billed for my annual plan renewal yesterday. How do I get a refund?", "label": "billing"}
+{"text": "Where can I update my credit card details for auto-pay before the next billing cycle?", "label": "billing"}
+{"text": "I cancelled my subscription three days ago, but money was still deducted from my bank account.", "label": "billing"}
+{"text": "Could you clarify the taxes and service fees listed on my latest billing statement?", "label": "billing"}
+{"text": "I would like to request a prorated refund since I downgraded from Enterprise to Pro halfway through the month.", "label": "billing"}
+{"text": "My payment failed this morning, but my card is active. How can I retry the transaction?", "label": "billing"}
+{"text": "Do you offer an educational or non-profit discount on your annual pricing plans?", "label": "billing"}
+{"text": "My coupon code SAVE20 was not applied during checkout and I was charged the full price.", "label": "billing"}
+{"text": "The web application keeps crashing with error code 500 whenever I try to export my CSV report.", "label": "technical_support"}
+{"text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.", "label": "technical_support"}
+{"text": "The desktop client crashes immediately upon launch on Windows 11.", "label": "technical_support"}
+{"text": "Webhook notifications are failing to trigger when new events occur in our workspace.", "label": "technical_support"}
+{"text": "File uploads larger than 10MB are timing out even though our network connection is stable.", "label": "technical_support"}
+{"text": "The search filter is returning inconsistent results and misses records created today.", "label": "technical_support"}
+{"text": "The mobile app audio output is muted during video playback on Android devices.", "label": "technical_support"}
+{"text": "API requests to the /v1/users endpoint are consistently returning a 504 Gateway Timeout.", "label": "technical_support"}
+{"text": "The dark mode toggle is broken on Safari and causes layout elements to overlap.", "label": "technical_support"}
+{"text": "Our automated data sync stopped working at midnight and no error message was shown in the console.", "label": "technical_support"}
+{"text": "I forgot my password and the reset link email is not arriving in my inbox or spam folder.", "label": "account_access"}
+{"text": "I got a new phone and lost access to my two-factor authenticator app. How can I recover my account?", "label": "account_access"}
+{"text": "My account has been locked after three incorrect PIN attempts. Please help me unlock it.", "label": "account_access"}
+{"text": "I need to update the primary email address linked to my login profile.", "label": "account_access"}
+{"text": "I received an alert about an unauthorized login attempt from an unrecognized location and want to secure my account.", "label": "account_access"}
+{"text": "My single sign-on (SSO) through Google is failing with an invalid session token message.", "label": "account_access"}
+{"text": "How do I revoke active login sessions on other devices after suspecting a security compromise?", "label": "account_access"}
+{"text": "The verification SMS code for login is not being delivered to my registered mobile number.", "label": "account_access"}
+{"text": "I am unable to switch between workspace organizations after logging into my profile.", "label": "account_access"}
+{"text": "Our team admin left the company. How can we transfer account ownership to another team member?", "label": "account_access"}
+{"text": "The price on my renewal notice is higher than last year. Which plan change caused the increase?", "label": "billing"}
+{"text": "Could you add our purchase order number to the invoice for this month's subscription?", "label": "billing"}
+{"text": "My refund was marked as completed, but it has not appeared on the original payment card yet.", "label": "billing"}
+{"text": "Our organization is tax-exempt. Where do I submit the certificate so future invoices exclude sales tax?", "label": "billing"}
+{"text": "I switched to a lower tier yesterday and want to understand when the new monthly price takes effect.", "label": "billing"}
+{"text": "The invoice lists two active seats for a coworker who left our company last month.", "label": "billing"}
+{"text": "We paid the outstanding invoice by bank transfer. Can you confirm it was matched to our account?", "label": "billing"}
+{"text": "I need a copy of the receipt in euros for the charge made to our company card.", "label": "billing"}
+{"text": "My subscription renewed after I thought I had turned off automatic renewal. Please review the charge.", "label": "billing"}
+{"text": "The checkout page applied a discount, but the final invoice shows the full monthly price.", "label": "billing"}
+{"text": "Can our finance team receive one combined invoice instead of separate charges for each workspace?", "label": "billing"}
+{"text": "A card payment is showing as pending twice in our bank account, although the invoice is only listed once.", "label": "billing"}
+{"text": "Please explain the extra usage charge on our statement; we did not expect to exceed the plan allowance.", "label": "billing"}
+{"text": "Where can I download invoices for the previous financial year?", "label": "billing"}
+{"text": "I need to change the billing contact from my personal email to our accounts-payable mailbox.", "label": "billing"}
+{"text": "The settings page freezes when I try to save a new notification rule in our workspace.", "label": "technical_support"}
+{"text": "Images attached to support tickets appear as broken links for everyone on our team.", "label": "technical_support"}
+{"text": "The report export completes, but the downloaded spreadsheet is missing the last two columns.", "label": "technical_support"}
+{"text": "I receive a blank page after selecting a project from the workspace navigation menu.", "label": "technical_support"}
+{"text": "Our integration started returning an authentication error even though the API key has not changed.", "label": "technical_support"}
+{"text": "Keyboard shortcuts stopped responding in the editor after I updated the browser.", "label": "technical_support"}
+{"text": "The activity timeline displays events in the wrong order when I filter by date.", "label": "technical_support"}
+{"text": "I cannot invite a teammate because the submit button stays disabled after entering their email.", "label": "technical_support"}
+{"text": "Notifications are arriving several hours after the events they refer to.", "label": "technical_support"}
+{"text": "The calendar integration duplicates each meeting when it syncs with Outlook.", "label": "technical_support"}
+{"text": "Our saved dashboard view resets to the default filters every time I sign back in.", "label": "technical_support"}
+{"text": "The command-line tool exits with a permission error when run from a read-only project folder.", "label": "technical_support"}
+{"text": "Audio recordings uploaded from an iPhone play at double speed in the web player.", "label": "technical_support"}
+{"text": "Search results include archived projects even when the archived-items option is turned off.", "label": "technical_support"}
+{"text": "The status page says our integration is connected, but new records have not synced since this morning.", "label": "technical_support"}
+{"text": "I no longer have access to the email address where password reset links are sent.", "label": "account_access"}
+{"text": "My invitation says it has expired, and the workspace owner cannot find a way to resend it.", "label": "account_access"}
+{"text": "I changed my phone number and need to replace the number used for login verification.", "label": "account_access"}
+{"text": "A former contractor still appears in our workspace member list. How can I remove their access?", "label": "account_access"}
+{"text": "The identity provider says sign-in succeeded, but TaskTune sends me back to the login screen.", "label": "account_access"}
+{"text": "I accidentally disabled my authenticator while setting up a new device and can no longer sign in.", "label": "account_access"}
+{"text": "My account is linked to the wrong company workspace after I accepted an invitation.", "label": "account_access"}
+{"text": "Where can I find the recovery codes I saved when I enabled two-step verification?", "label": "account_access"}
+{"text": "I can sign in on my laptop, but my new tablet keeps saying my credentials are incorrect.", "label": "account_access"}
+{"text": "Please help me change the username shown on my profile without losing my account history.", "label": "account_access"}
+{"text": "I am still receiving login approval requests for a device I sold last month.", "label": "account_access"}
+{"text": "The email address on my account has a typo, so I cannot verify ownership of the profile.", "label": "account_access"}
+{"text": "Our new administrator needs owner permissions, but the current owner has left and is unreachable.", "label": "account_access"}
+{"text": "I signed out everywhere, but one browser session still appears as active in my security settings.", "label": "account_access"}
+{"text": "The password manager fills my password correctly, but login says the account cannot be found.", "label": "account_access"}

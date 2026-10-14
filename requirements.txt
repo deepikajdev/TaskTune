@@ -1,0 +1,2 @@
+# Dependencies for the TF-IDF + Logistic Regression baseline.
+scikit-learn>=1.4.0

@@ -1,0 +1,240 @@
+{
+  "fold_results": [
+    {
+      "fold": 1,
+      "metrics": {
+        "accuracy": 0.8,
+        "macro_f1": 0.791919191919192,
+        "per_class": {
+          "account_access": {
+            "f1": 0.9090909090909091,
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "support": 5
+          },
+          "billing": {
+            "f1": 0.6666666666666666,
+            "precision": 0.75,
+            "recall": 0.6,
+            "support": 5
+          },
+          "technical_support": {
+            "f1": 0.8,
+            "precision": 0.8,
+            "recall": 0.8,
+            "support": 5
+          }
+        }
+      },
+      "test_class_counts": {
+        "account_access": 5,
+        "billing": 5,
+        "technical_support": 5
+      },
+      "test_examples": 15,
+      "train_examples": 60
+    },
+    {
+      "fold": 2,
+      "metrics": {
+        "accuracy": 0.8666666666666667,
+        "macro_f1": 0.865993265993266,
+        "per_class": {
+          "account_access": {
+            "f1": 0.8,
+            "precision": 0.8,
+            "recall": 0.8,
+            "support": 5
+          },
+          "billing": {
+            "f1": 0.9090909090909091,
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "support": 5
+          },
+          "technical_support": {
+            "f1": 0.8888888888888888,
+            "precision": 1.0,
+            "recall": 0.8,
+            "support": 5
+          }
+        }
+      },
+      "test_class_counts": {
+        "account_access": 5,
+        "billing": 5,
+        "technical_support": 5
+      },
+      "test_examples": 15,
+      "train_examples": 60
+    },
+    {
+      "fold": 3,
+      "metrics": {
+        "accuracy": 0.8666666666666667,
+        "macro_f1": 0.8666666666666667,
+        "per_class": {
+          "account_access": {
+            "f1": 0.8,
+            "precision": 0.8,
+            "recall": 0.8,
+            "support": 5
+          },
+          "billing": {
+            "f1": 0.8,
+            "precision": 0.8,
+            "recall": 0.8,
+            "support": 5
+          },
+          "technical_support": {
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5
+          }
+        }
+      },
+      "test_class_counts": {
+        "account_access": 5,
+        "billing": 5,
+        "technical_support": 5
+      },
+      "test_examples": 15,
+      "train_examples": 60
+    },
+    {
+      "fold": 4,
+      "metrics": {
+        "accuracy": 0.9333333333333333,
+        "macro_f1": 0.9326599326599326,
+        "per_class": {
+          "account_access": {
+            "f1": 0.9090909090909091,
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "support": 5
+          },
+          "billing": {
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5
+          },
+          "technical_support": {
+            "f1": 0.8888888888888888,
+            "precision": 1.0,
+            "recall": 0.8,
+            "support": 5
+          }
+        }
+      },
+      "test_class_counts": {
+        "account_access": 5,
+        "billing": 5,
+        "technical_support": 5
+      },
+      "test_examples": 15,
+      "train_examples": 60
+    },
+    {
+      "fold": 5,
+      "metrics": {
+        "accuracy": 0.8,
+        "macro_f1": 0.791919191919192,
+        "per_class": {
+          "account_access": {
+            "f1": 0.6666666666666666,
+            "precision": 0.75,
+            "recall": 0.6,
+            "support": 5
+          },
+          "billing": {
+            "f1": 0.9090909090909091,
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "support": 5
+          },
+          "technical_support": {
+            "f1": 0.8,
+            "precision": 0.8,
+            "recall": 0.8,
+            "support": 5
+          }
+        }
+      },
+      "test_class_counts": {
+        "account_access": 5,
+        "billing": 5,
+        "technical_support": 5
+      },
+      "test_examples": 15,
+      "train_examples": 60
+    }
+  ],
+  "metadata": {
+    "class_counts": {
+      "account_access": 25,
+      "billing": 25,
+      "technical_support": 25
+    },
+    "created_at_utc": "2026-10-13T17:48:29.600901+00:00",
+    "dataset": "data\\sample_dataset.jsonl",
+    "dataset_examples": 75,
+    "dataset_sha256": "8843f1f21e5c6d7ac23ca4ebe969d3be18523744904f250cde390850197e5164",
+    "evaluation": "StratifiedKFold with shuffle=True",
+    "folds": 5,
+    "label_order": [
+      "account_access",
+      "billing",
+      "technical_support"
+    ],
+    "python_version": "3.12.7",
+    "random_state": 42,
+    "scikit_learn_version": "1.9.1",
+    "standard_deviation": "population standard deviation across folds"
+  },
+  "summary": {
+    "mean": {
+      "accuracy": 0.8533333333333334,
+      "macro_f1": 0.8498316498316498,
+      "per_class": {
+        "account_access": {
+          "f1": 0.816969696969697,
+          "precision": 0.8033333333333333,
+          "recall": 0.84
+        },
+        "billing": {
+          "f1": 0.8569696969696969,
+          "precision": 0.8433333333333334,
+          "recall": 0.88
+        },
+        "technical_support": {
+          "f1": 0.8755555555555555,
+          "precision": 0.92,
+          "recall": 0.8400000000000001
+        }
+      }
+    },
+    "population_std": {
+      "accuracy": 0.04988876515698588,
+      "macro_f1": 0.05312785639943911,
+      "per_class": {
+        "account_access": {
+          "f1": 0.08959863569733978,
+          "precision": 0.030550504633038947,
+          "recall": 0.14966629547095767
+        },
+        "billing": {
+          "f1": 0.11432558664292457,
+          "precision": 0.08406346808612326,
+          "recall": 0.16
+        },
+        "technical_support": {
+          "f1": 0.07383665655927175,
+          "precision": 0.0979795897113271,
+          "recall": 0.07999999999999999
+        }
+      }
+    }
+  }
+}

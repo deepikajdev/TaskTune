@@ -1,0 +1,42 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Model checkpoints & large binary weights (do not commit to Git)
+models/
+checkpoints/
+*.pt
+*.bin
+*.safetensors
+*.onnx
+
+# Experiment tracking & cache
+wandb/
+runs/
+.cache/
+hf_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Secrets, API keys, and environment files
+.env
+.env.*
+*.token
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
