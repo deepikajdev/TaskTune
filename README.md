@@ -79,26 +79,38 @@ To ensure scientific rigor and eliminate bias, all model configurations will be 
 
 ```text
 tasktune/
-├── .gitignore               # Ignores virtual envs, checkpoints, and cached files
-├── README.md                # Project documentation and roadmap
-├── requirements.txt         # Project dependencies with descriptive annotations
+├── .gitignore                   # Ignores virtual envs, checkpoints, and cached files
+├── README.md                    # Project documentation, guides, and roadmap
+├── requirements.txt             # Project dependencies with descriptive annotations
 ├── data/
-│   ├── README.md            # Data directory guide and schema specification
-│   └── sample_dataset.jsonl # 75 illustrative inquiries, balanced across 3 classes
-├── notebooks/               # Exploratory analysis and training notebooks
-├── results/                 # Reproducible metrics, logs, and confusion matrix plots
+│   ├── README.md                # Data directory guide and schema specification
+│   └── sample_dataset.jsonl     # 75 illustrative inquiries, balanced across 3 classes
+├── notebooks/                   # Exploratory analysis and training notebooks
+├── results/                     # Reproducible metrics, logs, and diagnostic artifacts
+│   ├── README.md                # Guide to evaluation JSON artifacts
+│   ├── baseline_comparison.json # Majority-class vs Logistic Regression comparison
+│   ├── cross_validation.json    # 5-fold stratified cross-validation metrics
+│   ├── error_analysis.json      # Per-class error counts and misclassified examples
+│   ├── model_comparison.json    # Logistic Regression vs Naive Bayes comparison
+│   └── dataset_profile.json     # Record health, class balance, and text statistics
 ├── src/
-│   ├── __init__.py          # Package initializer
-│   ├── validate_dataset.py  # Dataset schema, label, and duplicate validator
-│   ├── train_baseline.py    # TF-IDF + Logistic Regression training and evaluation
-│   ├── compare_baselines.py # Majority-class versus Logistic Regression comparison
-│   ├── predict_message.py   # Command-line prediction for one customer message
+│   ├── __init__.py              # Package initializer
+│   ├── validate_dataset.py      # Dataset schema, label, and duplicate validator
+│   ├── profile_dataset.py       # Dataset profiling (lengths, vocabulary, anomalies)
+│   ├── train_baseline.py        # TF-IDF + Logistic Regression training and evaluation
+│   ├── compare_baselines.py     # Majority-class versus Logistic Regression comparison
+│   ├── compare_models.py        # Logistic Regression versus Naive Bayes fair comparison
+│   ├── analyze_errors.py        # Granular classifier error analysis and misclassifications
+│   ├── predict_message.py       # Command-line prediction for one customer message
 │   └── evaluate_cross_validation.py # Stratified cross-validation evaluation
 └── tests/
-    ├── test_validate_dataset.py  # Automated unit tests for data validation
-    ├── test_train_baseline.py    # Automated unit tests for the baseline
-    ├── test_compare_baselines.py # Tests for fair baseline comparison
-    ├── test_predict_message.py   # Tests for the prediction command
+    ├── test_validate_dataset.py # Automated unit tests for data validation
+    ├── test_profile_dataset.py  # Tests for dataset profiling and statistics
+    ├── test_train_baseline.py   # Automated unit tests for the baseline
+    ├── test_compare_baselines.py # Tests for majority vs baseline comparison
+    ├── test_compare_models.py   # Tests for Logistic Regression vs Naive Bayes
+    ├── test_analyze_errors.py   # Tests for classification error analysis
+    ├── test_predict_message.py  # Tests for the prediction CLI command
     └── test_evaluate_cross_validation.py # Cross-validation tests
 ```
 
@@ -111,7 +123,7 @@ tasktune/
 - Git
 
 ### 2. Install Dependencies
-From the repository root, create and activate a virtual environment, then install the baseline dependency:
+From the repository root, create and activate a virtual environment, then install project dependencies:
 
 ```bash
 # Create and activate a virtual environment
@@ -123,41 +135,119 @@ python -m venv .venv
 # On Linux/macOS:
 source .venv/bin/activate
 
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 3. Validate, Test, and Compare the Baselines
+---
+
+## 🛠️ CLI Usage & Tooling Guide
+
+### 1. Validate Dataset Integrity
+Checks JSON syntax, required fields (`text`, `label`), allowed labels, non-empty text, and duplicates:
 ```bash
-# Validate the sample dataset
 python src/validate_dataset.py --file data/sample_dataset.jsonl
+```
 
-# Compare both baselines (default: 25% held out, seed 42)
-python src/compare_baselines.py --file data/sample_dataset.jsonl
+### 2. Profile Dataset Distribution & Health
+Analyzes class distribution percentages, duplicate records, blank/invalid lines, and character/word length statistics:
+```bash
+python src/profile_dataset.py --file data/sample_dataset.jsonl --output results/dataset_profile.json
+```
 
-# Choose the test fraction, seed, or output JSON path
+### 3. Train & Evaluate the Baseline Model
+Fits TF-IDF and Logistic Regression on a stratified training split and prints test metrics with a confusion matrix:
+```bash
+python src/train_baseline.py
+```
+
+### 4. Compare Baseline against Majority-Class Predictor
+Compares majority-class guessing against TF-IDF + Logistic Regression on the exact same held-out test split:
+```bash
 python src/compare_baselines.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/baseline_comparison.json
+```
 
-# Classify one new customer message (run from the repository root)
-python src/predict_message.py "I was charged twice for my subscription."
+### 5. Fair Comparison Between Two Classification Models
+Fairly compares Logistic Regression against Multinomial Naive Bayes using identical stratified splits, identical vectorizer fitting, and identical evaluation metrics:
+```bash
+python src/compare_models.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/model_comparison.json
+```
 
-# Use a different validated dataset
-python src/predict_message.py "I cannot reset my password." --file data/sample_dataset.jsonl
+### 6. Error Analysis Report
+Diagnoses classifier mistakes on the held-out test set, identifying misclassified examples and error counts per category:
+```bash
+python src/analyze_errors.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/error_analysis.json
+```
 
-# Evaluate across five stratified folds and save JSON metrics
-python src/evaluate_cross_validation.py --file data/sample_dataset.jsonl
-
-# Set the fold count, seed, or output path
+### 7. Stratified Cross-Validation
+Evaluates stability across 5 stratified folds with TF-IDF fitted inside each fold to eliminate data leakage:
+```bash
 python src/evaluate_cross_validation.py --file data/sample_dataset.jsonl --folds 5 --random-state 42 --output results/cross_validation.json
+```
 
-# Run automated unit tests
+### 8. Predict Category for a Single Customer Message
+Quickly routes a single inbound message using the trained pipeline:
+```bash
+python src/predict_message.py "I was charged twice for my subscription renewal."
+```
+
+### 9. Run the Automated Unit Test Suite
+Runs all unit tests with full discovery:
+```bash
 python -m unittest discover -s tests -v
 ```
 
-The comparison validates the JSONL data, creates one fixed stratified split, and evaluates both models on the same held-out examples. The majority-class baseline learns its most common label from the training split only. TF-IDF is fitted on training text only, then applied to test text. Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrices use a consistent label order. Actual metrics and reproducibility metadata (including the split indices, seed, versions, and dataset SHA-256) are saved to `results/baseline_comparison.json`. The bundled dataset is illustrative rather than representative; its results are not a meaningful performance benchmark.
+---
 
-The prediction command validates and trains the same TF-IDF + Logistic Regression pipeline on the labeled dataset, then predicts one supplied message. Prediction uses the labeled examples for fitting; the separate comparison command remains responsible for held-out evaluation. A trained model is not saved to disk. The CLI reports an error for empty messages or missing/invalid datasets.
+## 🔬 Reproducing Experiments Step-by-Step
 
-Cross-validation divides the dataset into several stratified folds. Each fold trains on all but one part and evaluates on the held-out part; every example is held out once. The TF-IDF vectorizer is inside the training pipeline, so each fold learns its vocabulary from that fold's training examples only. The report includes fold-level accuracy, macro-F1, per-class precision/recall/F1, and the mean and population standard deviation across folds. The five-fold default requires at least five examples in every class. Cross-validation on this small illustrative dataset is only an initial estimate, not proof of real-world performance.
+All experiments in TaskTune are deterministic and can be reproduced with these exact commands from the repository root:
+
+1. **Profile the sample dataset:**
+   ```bash
+   python src/profile_dataset.py --file data/sample_dataset.jsonl --output results/dataset_profile.json
+   ```
+   *Generates:* `results/dataset_profile.json` documenting 75 total records, zero duplicates, and exact 33.33% balance across the 3 classes.
+
+2. **Evaluate the baseline vs. majority class:**
+   ```bash
+   python src/compare_baselines.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/baseline_comparison.json
+   ```
+   *Generates:* `results/baseline_comparison.json` with a 56-train / 19-test stratified split.
+
+3. **Compare Logistic Regression vs. Multinomial Naive Bayes:**
+   ```bash
+   python src/compare_models.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/model_comparison.json
+   ```
+   *Generates:* `results/model_comparison.json` comparing both classifiers on identical test indices.
+
+4. **Run error analysis:**
+   ```bash
+   python src/analyze_errors.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/error_analysis.json
+   ```
+   *Generates:* `results/error_analysis.json` identifying the 4 misclassified test examples and per-class error distribution.
+
+5. **Run stratified cross-validation:**
+   ```bash
+   python src/evaluate_cross_validation.py --file data/sample_dataset.jsonl --folds 5 --random-state 42 --output results/cross_validation.json
+   ```
+   *Generates:* `results/cross_validation.json` containing 5 fold results and summary mean/standard deviation.
+
+---
+
+## ⚠️ Interpreting Results & Realistic Limitations
+
+When reading the metrics in `results/`, keep the following real-world considerations in mind:
+
+1. **Small illustrative dataset (75 records total):**
+   - The bundled dataset contains 25 synthetic examples for each of the 3 classes (`billing`, `technical_support`, `account_access`).
+   - It is intended as a **pipeline sanity check and tooling smoke test**, not as an accurate simulation of production customer support traffic.
+2. **High sensitivity to split variance:**
+   - In a 19-sample test split, a single misclassified message swings the overall accuracy score by **over 5.2 percentage points** ($1 / 19 \approx 5.26\%$). Small test set metrics should not be treated as statistically decisive.
+3. **Lexical overlap vs. semantic understanding:**
+   - Bag-of-words and TF-IDF representations rely on shared n-grams and vocabulary. When a customer uses unfamiliar phrasing, typos, or cross-cutting language (e.g., "login failed due to an error code"), classical linear models can easily become confused.
+4. **No production readiness claims:**
+   - A high score on this curated seed dataset does not guarantee real-world generalization. Production deployment requires expanding the dataset to thousands of verified customer interactions, tracking drift, measuring latency under load, and validating edge cases.
 
 ---
 

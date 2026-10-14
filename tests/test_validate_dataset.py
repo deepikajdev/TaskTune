@@ -147,6 +147,50 @@ class TestDatasetValidator(unittest.TestCase):
         self.assertFalse(is_valid)
         self.assertTrue(any("is empty" in err for err in report["errors"]))
 
+    def test_json_non_dict_object(self) -> None:
+        """Verify that JSON primitives/arrays instead of objects are rejected."""
+        content = (
+            '["text", "billing"]\n'
+            '"just a json string"\n'
+            '12345\n'
+        )
+        file_path = self._write_jsonl("non_dict.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertFalse(is_valid)
+        self.assertEqual(len(report["errors"]), 3)
+        self.assertTrue(all("Expected a JSON object (dictionary)" in err for err in report["errors"]))
+
+    def test_blank_lines_generate_warnings(self) -> None:
+        """Verify that blank lines produce warnings but allow valid records through."""
+        content = (
+            '{"text": "Invoice query", "label": "billing"}\n'
+            '\n'
+            '   \n'
+            '{"text": "Login failure", "label": "account_access"}\n'
+        )
+        file_path = self._write_jsonl("blank_lines.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertTrue(is_valid)
+        self.assertEqual(report["total_examples"], 2)
+        self.assertEqual(len(report["warnings"]), 2)
+        self.assertTrue(all("Empty blank line" in w for w in report["warnings"]))
+
+    def test_custom_allowed_labels(self) -> None:
+        """Verify that validator accepts a custom set of allowed labels."""
+        content = '{"text": "Shipment delayed", "label": "logistics"}\n'
+        file_path = self._write_jsonl("custom_labels.jsonl", content)
+
+        # Standard allowed labels reject it
+        is_valid_default, _ = validate_dataset(file_path)
+        self.assertFalse(is_valid_default)
+
+        # Custom allowed labels accept it
+        is_valid_custom, report = validate_dataset(file_path, allowed_labels={"logistics", "sales"})
+        self.assertTrue(is_valid_custom)
+        self.assertEqual(report["label_counts"]["logistics"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
