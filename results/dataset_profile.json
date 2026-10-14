@@ -1,0 +1,91 @@
+{
+  "blank_lines": [],
+  "class_distribution": {
+    "account_access": {
+      "count": 25,
+      "percentage": 33.33
+    },
+    "billing": {
+      "count": 25,
+      "percentage": 33.33
+    },
+    "technical_support": {
+      "count": 25,
+      "percentage": 33.33
+    }
+  },
+  "duplicates": [],
+  "invalid_records": [],
+  "metadata": {
+    "created_at_utc": "2026-10-14T18:12:21.623572+00:00",
+    "dataset": "data\\sample_dataset.jsonl",
+    "dataset_sha256": "8843f1f21e5c6d7ac23ca4ebe969d3be18523744904f250cde390850197e5164",
+    "total_lines": 75
+  },
+  "overall_text_statistics": {
+    "character_length": {
+      "max": 116.0,
+      "mean": 88.59,
+      "median": 88.0,
+      "min": 62.0
+    },
+    "word_count": {
+      "max": 19.0,
+      "mean": 15.12,
+      "median": 15.0,
+      "min": 10.0
+    }
+  },
+  "overview": {
+    "blank_lines": 0,
+    "duplicate_records": 0,
+    "invalid_records": 0,
+    "total_lines": 75,
+    "unique_vocabulary_tokens": 546,
+    "valid_records": 75
+  },
+  "per_class_text_statistics": {
+    "account_access": {
+      "character_length": {
+        "max": 116.0,
+        "mean": 89.76,
+        "median": 89.0,
+        "min": 70.0
+      },
+      "word_count": {
+        "max": 19.0,
+        "mean": 15.56,
+        "median": 15.0,
+        "min": 13.0
+      }
+    },
+    "billing": {
+      "character_length": {
+        "max": 110.0,
+        "mean": 89.88,
+        "median": 89.0,
+        "min": 62.0
+      },
+      "word_count": {
+        "max": 19.0,
+        "mean": 15.76,
+        "median": 16.0,
+        "min": 10.0
+      }
+    },
+    "technical_support": {
+      "character_length": {
+        "max": 102.0,
+        "mean": 86.12,
+        "median": 85.0,
+        "min": 65.0
+      },
+      "word_count": {
+        "max": 17.0,
+        "mean": 14.04,
+        "median": 14.0,
+        "min": 10.0
+      }
+    }
+  }
+}
