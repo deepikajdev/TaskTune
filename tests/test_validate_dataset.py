@@ -191,6 +191,104 @@ class TestDatasetValidator(unittest.TestCase):
         self.assertTrue(is_valid_custom)
         self.assertEqual(report["label_counts"]["logistics"], 1)
 
+    def test_record_missing_both_text_and_label(self) -> None:
+        """Verify that a record missing both required fields reports two errors."""
+        content = '{"id": 1, "category": "billing"}\n'
+        file_path = self._write_jsonl("missing_both.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertFalse(is_valid)
+        self.assertTrue(any("Missing required field 'text'" in err for err in report["errors"]))
+        self.assertTrue(any("Missing required field 'label'" in err for err in report["errors"]))
+
+    def test_extra_fields_still_pass(self) -> None:
+        """Verify that records with extra unexpected fields are accepted."""
+        content = '{"text": "Refund please", "label": "billing", "priority": "high", "id": 99}\n'
+        file_path = self._write_jsonl("extra_fields.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertTrue(is_valid)
+        self.assertEqual(report["total_examples"], 1)
+        self.assertEqual(len(report["errors"]), 0)
+
+    def test_whitespace_variant_duplicates(self) -> None:
+        """Verify duplicates are caught when text differs only by internal whitespace."""
+        content = (
+            '{"text": "I need help with billing", "label": "billing"}\n'
+            '{"text": "I  need  help  with  billing", "label": "billing"}\n'
+        )
+        file_path = self._write_jsonl("ws_duplicates.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertFalse(is_valid)
+        self.assertTrue(any("Duplicate text detected" in err for err in report["errors"]))
+
+    def test_multiple_malformed_json_formats(self) -> None:
+        """Verify various kinds of malformed JSON are all detected."""
+        content = (
+            '{"text": "truncated\n'                            # truncated JSON
+            '{text: "no quotes on key", label: "billing"}\n'   # unquoted keys
+            '{"text": "trailing comma", "label": "billing",}\n'  # trailing comma
+        )
+        file_path = self._write_jsonl("multi_malformed.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertFalse(is_valid)
+        malformed_errors = [e for e in report["errors"] if "Malformed JSON syntax" in e]
+        self.assertEqual(len(malformed_errors), 3)
+
+    def test_unicode_text_passes(self) -> None:
+        """Verify that records with unicode and special characters pass validation."""
+        content = '{"text": "Mon paiement a échoué — j\\u0027ai besoin d\\u0027aide 🙏", "label": "billing"}\n'
+        file_path = self._write_jsonl("unicode.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertTrue(is_valid)
+        self.assertEqual(report["total_examples"], 1)
+        self.assertEqual(len(report["errors"]), 0)
+
+    def test_mixed_valid_and_invalid_counts(self) -> None:
+        """Verify correct counting when valid and invalid records are interleaved."""
+        content = (
+            '{"text": "Valid billing query", "label": "billing"}\n'
+            '{"text": "", "label": "billing"}\n'                    # empty text
+            '{"text": "Valid tech query", "label": "technical_support"}\n'
+            '{"label": "account_access"}\n'                         # missing text
+            '{"text": "Valid access query", "label": "account_access"}\n'
+        )
+        file_path = self._write_jsonl("mixed.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertFalse(is_valid)
+        self.assertEqual(report["total_examples"], 4)
+        self.assertEqual(len(report["errors"]), 2)
+        self.assertEqual(report["label_counts"]["billing"], 2)
+        self.assertEqual(report["label_counts"]["technical_support"], 1)
+        self.assertEqual(report["label_counts"]["account_access"], 1)
+
+    def test_non_string_text_types(self) -> None:
+        """Verify that boolean and list text values are rejected."""
+        content = (
+            '{"text": true, "label": "billing"}\n'
+            '{"text": ["help", "me"], "label": "technical_support"}\n'
+        )
+        file_path = self._write_jsonl("non_string_text.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertFalse(is_valid)
+        text_type_errors = [e for e in report["errors"] if "'text' must be a string" in e]
+        self.assertEqual(len(text_type_errors), 2)
+
+    def test_only_blank_lines(self) -> None:
+        """Verify that a file containing only blank lines is considered empty."""
+        content = "\n\n   \n\n"
+        file_path = self._write_jsonl("only_blanks.jsonl", content)
+        is_valid, report = validate_dataset(file_path)
+
+        self.assertTrue(is_valid)
+        self.assertEqual(report["total_examples"], 0)
+        self.assertEqual(len(report["warnings"]), 4)
+
 
 if __name__ == "__main__":
     unittest.main()
