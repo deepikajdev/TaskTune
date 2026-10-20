@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from src.profile_dataset import main, profile_dataset, save_profile
+from src.profile_dataset import export_summary, main, profile_dataset, save_profile
 
 
 class TestProfileDataset(unittest.TestCase):
@@ -118,6 +118,45 @@ class TestProfileDataset(unittest.TestCase):
             exit_code = main()
             self.assertEqual(exit_code, 0)
             self.assertTrue(out_file.exists())
+
+    def test_export_summary_structure(self) -> None:
+        """Verify export_summary returns correct compact structure from a full profile."""
+        profile = profile_dataset(self.dataset_path)
+        summary = export_summary(profile)
+
+        self.assertEqual(summary["record_count"], 4)
+        self.assertEqual(summary["class_counts"]["billing"], 2)
+        self.assertEqual(summary["class_counts"]["technical_support"], 1)
+        self.assertEqual(summary["class_counts"]["account_access"], 1)
+        self.assertEqual(summary["duplicate_count"], 0)
+        self.assertIn("character_length", summary["text_length_stats"])
+        self.assertIn("word_count", summary["text_length_stats"])
+        self.assertIsInstance(summary["dataset_sha256"], str)
+        self.assertEqual(len(summary["dataset_sha256"]), 64)
+
+    def test_cli_summary_flag(self) -> None:
+        """Verify --summary flag writes a compact JSON summary file."""
+        out_file = Path(self.temp_dir.name) / "full.json"
+        summary_file = Path(self.temp_dir.name) / "summary.json"
+        test_args = [
+            "profile_dataset.py",
+            "--file",
+            str(self.dataset_path),
+            "--output",
+            str(out_file),
+            "--summary",
+            str(summary_file),
+        ]
+        with patch.object(sys, "argv", test_args):
+            exit_code = main()
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(summary_file.exists())
+            summary = json.loads(summary_file.read_text(encoding="utf-8"))
+            self.assertIn("record_count", summary)
+            self.assertIn("class_counts", summary)
+            self.assertIn("duplicate_count", summary)
+            self.assertIn("text_length_stats", summary)
+            self.assertEqual(summary["record_count"], 4)
 
 
 if __name__ == "__main__":

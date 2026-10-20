@@ -249,6 +249,29 @@ def profile_dataset(
     }
 
 
+def export_summary(profile: dict[str, Any]) -> dict[str, Any]:
+    """Extract a compact, reproducible summary from a full dataset profile.
+
+    Returns a flat dictionary containing:
+    - record_count: total valid records
+    - class_counts: per-label counts
+    - duplicate_count: number of duplicate records detected
+    - text_length_stats: overall character-length and word-count statistics
+    - dataset_sha256: hash of the source dataset file
+    """
+    overview = profile["overview"]
+    return {
+        "record_count": overview["valid_records"],
+        "class_counts": {
+            label: info["count"]
+            for label, info in profile["class_distribution"].items()
+        },
+        "duplicate_count": overview["duplicate_records"],
+        "text_length_stats": profile["overall_text_statistics"],
+        "dataset_sha256": profile["metadata"]["dataset_sha256"],
+    }
+
+
 def save_profile(profile: dict[str, Any], output_path: Path | str) -> None:
     """Save the dataset profiling dictionary as formatted JSON."""
     path = Path(output_path)
@@ -336,6 +359,12 @@ def main() -> int:
         default="results/dataset_profile.json",
         help="Path to save JSON profile (default: results/dataset_profile.json).",
     )
+    parser.add_argument(
+        "--summary",
+        type=str,
+        default=None,
+        help="Optional path to save a compact JSON summary (record count, class counts, duplicates, text stats).",
+    )
     args = parser.parse_args()
 
     try:
@@ -345,6 +374,10 @@ def main() -> int:
         return 1
 
     save_profile(profile, args.output)
+    if args.summary:
+        summary = export_summary(profile)
+        save_profile(summary, args.summary)
+        print(f"Saved compact JSON summary to: {args.summary}")
     print_profile(profile, args.output)
     return 0
 
