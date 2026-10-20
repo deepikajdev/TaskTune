@@ -40,3 +40,19 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Test, coverage & type-checking artifacts
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Build & distribution artifacts
+build/
+dist/
+*.egg-info/
+
+# Temporary and scratch files
+*.tmp
+*.temp
