@@ -20,6 +20,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.predict_message import predict_with_confidence
 from src.validate_dataset import ALLOWED_LABELS
 from src.input_validation import MAX_MESSAGE_LENGTH, friendly_validation_error, validate_message
+from src.prediction_history import add_history_record, clear_history
 
 DATASET_PATH = PROJECT_ROOT / "data" / "sample_dataset.jsonl"
 LABEL_EMOJI = {
@@ -27,6 +28,10 @@ LABEL_EMOJI = {
     "technical_support": "🔧",
     "account_access": "🔑",
 }
+
+# ── Session State for Prediction History ──────────────────────────────────────
+if "history" not in st.session_state:
+    st.session_state.history = []
 
 # ── Page config ─────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -77,6 +82,9 @@ if predict_clicked:
             emoji = LABEL_EMOJI.get(label, "📌")
             confidence = result["confidence"]
 
+            # Save to in-memory session state history
+            add_history_record(st.session_state.history, stripped, label, confidence)
+
             st.divider()
             col1, col2 = st.columns([2, 1])
             with col1:
@@ -96,6 +104,31 @@ if predict_clicked:
                 "This model is trained on 75 illustrative examples — results may not "
                 "reflect real-world performance."
             )
+
+# ── Prediction History Section ───────────────────────────────────────────────
+st.divider()
+history_header_col, clear_btn_col = st.columns([3, 1])
+with history_header_col:
+    st.subheader("📜 Session Prediction History")
+with clear_btn_col:
+    if st.session_state.history:
+        if st.button("🗑️ Clear History", key="clear_history_btn"):
+            st.session_state.history = clear_history()
+            st.rerun()
+
+if st.session_state.history:
+    for item in reversed(st.session_state.history):
+        item_emoji = LABEL_EMOJI.get(item["predicted_label"], "📌")
+        with st.container(border=True):
+            col_meta, col_lbl = st.columns([3, 1])
+            with col_meta:
+                st.markdown(f"**#{item['sequence']}** · `{item['timestamp']}`")
+                st.write(item["message"])
+            with col_lbl:
+                st.markdown(f"### {item_emoji} `{item['predicted_label']}`")
+                st.caption(f"Confidence: {item['confidence']:.1%}")
+else:
+    st.info("No predictions recorded in this session yet. Enter a message above and click Predict!")
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.divider()
