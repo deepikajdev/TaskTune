@@ -76,6 +76,48 @@ class TestPredictMessageCLI(unittest.TestCase):
         self.assertIn("Dataset validation failed", result.stderr)
         self.assertIn("Invalid label", result.stderr)
 
+    def test_cli_with_scores_flag(self) -> None:
+        result = self._run_cli(
+            "I was charged twice for my subscription.",
+            "--file",
+            str(DATASET_PATH),
+            "--scores",
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Predicted category:", result.stdout)
+        self.assertIn("Confidence score:", result.stdout)
+        self.assertIn("Class probabilities:", result.stdout)
+        for label in SUPPORTED_LABELS:
+            self.assertIn(label, result.stdout)
+        self.assertIn("model estimates, not guaranteed correctness", result.stdout)
+
+    def test_predict_with_confidence_unit(self) -> None:
+        from src.predict_message import predict_message, predict_with_confidence
+
+        result = predict_with_confidence(
+            "I was charged twice for my subscription.",
+            DATASET_PATH,
+        )
+
+        self.assertIsInstance(result, dict)
+        self.assertIn(result["predicted_label"], SUPPORTED_LABELS)
+        self.assertGreaterEqual(result["confidence"], 0.0)
+        self.assertLessEqual(result["confidence"], 1.0)
+        self.assertEqual(set(result["probabilities"].keys()), SUPPORTED_LABELS)
+        prob_sum = sum(result["probabilities"].values())
+        self.assertAlmostEqual(prob_sum, 1.0, places=4)
+        self.assertIn("model estimates, not guaranteed correctness", result["note"])
+
+        # Also test predict_message with include_probabilities=False
+        label_only = predict_message(
+            "I was charged twice for my subscription.",
+            DATASET_PATH,
+            include_probabilities=False,
+        )
+        self.assertIsInstance(label_only, str)
+        self.assertEqual(label_only, result["predicted_label"])
+
 
 if __name__ == "__main__":
     unittest.main()
