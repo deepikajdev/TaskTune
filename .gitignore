@@ -17,6 +17,8 @@ checkpoints/
 *.bin
 *.safetensors
 *.onnx
+*.joblib
+*.pkl
 
 # Experiment tracking & cache
 wandb/
