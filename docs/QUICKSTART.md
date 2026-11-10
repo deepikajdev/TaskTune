@@ -4,10 +4,10 @@ Get up and running with TaskTune on **Windows (PowerShell)** in under five minut
 
 ## Prerequisites
 
-- Python 3.10 or later (tested on 3.12)
+- Python 3.10 or later (tested on Python 3.12)
 - Git
 
-## 1. Clone and Set Up
+## 1. Clone and Set Up (Windows PowerShell)
 
 ```powershell
 git clone https://github.com/deepikajdev/TaskTune.git
@@ -21,94 +21,98 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## 2. Run the Test Suite
+> **PowerShell Execution Policy:** If script execution is restricted on Windows, allow scripts for the current process:
+> ```powershell
+> Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+> ```
+
+## 2. Launch the Web Application
+
+Launch the clean, interactive Streamlit dashboard:
+
+```powershell
+streamlit run app.py
+```
+
+Or via Python module:
+```powershell
+python -m streamlit run app.py
+```
+
+The app opens automatically in your browser at `http://localhost:8501`. Features include:
+- **Live Classifier:** Test inquiries, view predicted categories and class probabilities with confidence ratings.
+- **Evaluation Metrics:** Explore held-out test split metrics, per-class breakdown, and 5-fold cross-validation.
+- **Session History:** Review in-memory query history with timestamps, sequence numbers, and a clear action.
+
+## 3. Run the Automated Unit Test Suite
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-All tests should pass before running any analysis scripts.
+All 39+ unit tests should pass.
 
-## 3. Validate the Dataset
+## 4. Train & Persist a Reusable Model
 
-Checks JSON syntax, required fields (`text`, `label`), allowed labels, non-empty text, and duplicates:
+Train the baseline model pipeline on the sample dataset and serialize it:
 
 ```powershell
+python src/model_persistence.py --dataset data/sample_dataset.jsonl --output models/baseline_model.joblib
+```
+
+> **Trust Assumption:** `joblib` deserializes arbitrary Python objects. Only load serialized models from trusted local sources.
+
+## 5. Predict via Command-Line Interface (CLI)
+
+Classify an inquiry with confidence scores and class probability breakdown:
+
+```powershell
+python src/predict_message.py "I was charged twice for my subscription renewal." --scores
+```
+
+Or predict directly using your saved model artifact:
+
+```powershell
+python src/predict_message.py "I cannot log in with my password." --model models/baseline_model.joblib --scores
+```
+
+## 6. Offline Evaluation Pipelines
+
+Generate reproducible benchmark reports in `results/`:
+
+```powershell
+# 1. Validate dataset integrity
 python src/validate_dataset.py --file data/sample_dataset.jsonl
-```
 
-## 4. Profile the Dataset
-
-Generates class distribution, duplicate detection, and text-length statistics:
-
-```powershell
+# 2. Profile dataset distribution & statistics
 python src/profile_dataset.py --file data/sample_dataset.jsonl --output results/dataset_profile.json
-```
 
-**Result:** `results/dataset_profile.json`
-
-## 5. Train and Evaluate the Baseline
-
-Fits TF-IDF + Logistic Regression on a stratified split and prints test metrics:
-
-```powershell
+# 3. Train & evaluate the baseline model
 python src/train_baseline.py
-```
 
-## 6. Compare Baseline vs. Majority-Class
+# 4. Compare baseline against majority-class guessing
+python src/compare_baselines.py --output results/baseline_comparison.json
 
-```powershell
-python src/compare_baselines.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/baseline_comparison.json
-```
+# 5. Fair comparison between Logistic Regression & Naive Bayes
+python src/compare_models.py --output results/model_comparison.json
 
-**Result:** `results/baseline_comparison.json`
+# 6. Error analysis of test set mistakes
+python src/analyze_errors.py --output results/error_analysis.json
 
-## 7. Compare Classification Models
-
-Logistic Regression vs. Multinomial Naive Bayes with identical splits:
-
-```powershell
-python src/compare_models.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/model_comparison.json
-```
-
-**Result:** `results/model_comparison.json`
-
-## 8. Error Analysis
-
-Diagnoses classifier mistakes on the held-out test set:
-
-```powershell
-python src/analyze_errors.py --file data/sample_dataset.jsonl --test-size 0.25 --random-state 42 --output results/error_analysis.json
-```
-
-**Result:** `results/error_analysis.json`
-
-## 9. Stratified Cross-Validation
-
-Evaluates stability across 5 stratified folds:
-
-```powershell
-python src/evaluate_cross_validation.py --file data/sample_dataset.jsonl --folds 5 --random-state 42 --output results/cross_validation.json
-```
-
-**Result:** `results/cross_validation.json`
-
-## 10. Predict a Single Message
-
-```powershell
-python src/predict_message.py "I was charged twice for my subscription renewal."
+# 7. Stratified 5-fold cross-validation
+python src/evaluate_cross_validation.py --folds 5 --output results/cross_validation.json
 ```
 
 ## Result Locations
 
 All evaluation artifacts are saved to `results/`:
 
-| File | Generated By |
-|------|-------------|
-| `dataset_profile.json` | `profile_dataset.py` |
-| `baseline_comparison.json` | `compare_baselines.py` |
-| `model_comparison.json` | `compare_models.py` |
-| `error_analysis.json` | `analyze_errors.py` |
-| `cross_validation.json` | `evaluate_cross_validation.py` |
+| File | Generated By | Description |
+|------|-------------|-------------|
+| `dataset_profile.json` | `profile_dataset.py` | Record counts, balance, text lengths |
+| `baseline_comparison.json` | `compare_baselines.py` | Majority-class vs. Logistic Regression |
+| `model_comparison.json` | `compare_models.py` | Logistic Regression vs. Naive Bayes |
+| `error_analysis.json` | `analyze_errors.py` | Granular test set mistake diagnosis |
+| `cross_validation.json` | `evaluate_cross_validation.py` | 5-fold leakage-free cross-validation |
 
-See `results/README.md` for detailed artifact descriptions.
+See `results/README.md` for detailed artifact schemas and dashboard integration details.
