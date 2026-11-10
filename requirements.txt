@@ -1,2 +1,8 @@
-# Dependencies for the TF-IDF + Logistic Regression baseline.
+# Core ML dependencies for TF-IDF + Logistic Regression baseline.
 scikit-learn>=1.4.0
+
+# Model serialization (joblib is bundled with scikit-learn but pinned here for clarity)
+joblib>=1.4.0
+
+# Web application dashboard
+streamlit>=1.35.0

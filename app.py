@@ -1,0 +1,105 @@
+"""TaskTune Streamlit web application.
+
+Provides a simple, clean interface for predicting customer inquiry categories
+using the trained TF-IDF + Logistic Regression classifier.
+
+Usage:
+    streamlit run app.py
+"""
+
+import sys
+from pathlib import Path
+
+import streamlit as st
+
+# Allow imports from src/ whether running from repo root or via streamlit
+PROJECT_ROOT = Path(__file__).resolve().parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.predict_message import predict_with_confidence
+from src.validate_dataset import ALLOWED_LABELS
+
+DATASET_PATH = PROJECT_ROOT / "data" / "sample_dataset.jsonl"
+MAX_INPUT_LENGTH = 500
+LABEL_EMOJI = {
+    "billing": "💳",
+    "technical_support": "🔧",
+    "account_access": "🔑",
+}
+
+# ── Page config ─────────────────────────────────────────────────────────────
+st.set_page_config(
+    page_title="TaskTune — Message Classifier",
+    page_icon="🎯",
+    layout="centered",
+)
+
+# ── Header ───────────────────────────────────────────────────────────────────
+st.title("🎯 TaskTune")
+st.caption("Customer inquiry classifier · TF-IDF + Logistic Regression baseline")
+st.divider()
+
+# ── Input section ─────────────────────────────────────────────────────────────
+st.subheader("📝 Classify a message")
+
+message = st.text_area(
+    "Enter a customer message",
+    placeholder="e.g. I was charged twice for my subscription this month.",
+    max_chars=MAX_INPUT_LENGTH,
+    height=120,
+    help=f"Maximum {MAX_INPUT_LENGTH} characters. Must not be blank.",
+)
+
+predict_clicked = st.button("🔍 Predict", type="primary", use_container_width=True)
+
+# ── Validation & Prediction ───────────────────────────────────────────────────
+if predict_clicked:
+    stripped = message.strip()
+
+    if not stripped:
+        st.error("⚠️ Please enter a message before predicting.")
+    elif len(stripped) > MAX_INPUT_LENGTH:
+        st.error(f"⚠️ Message is too long ({len(stripped)} chars). Maximum is {MAX_INPUT_LENGTH}.")
+    else:
+        with st.spinner("Classifying…"):
+            try:
+                result = predict_with_confidence(stripped, DATASET_PATH)
+            except FileNotFoundError:
+                st.error("❌ Training dataset not found. Run the app from the repository root.")
+                result = None
+            except ValueError as exc:
+                st.error(f"❌ Prediction error: {exc}")
+                result = None
+
+        if result:
+            label = result["predicted_label"]
+            emoji = LABEL_EMOJI.get(label, "📌")
+            confidence = result["confidence"]
+
+            st.divider()
+            col1, col2 = st.columns([2, 1])
+            with col1:
+                st.markdown(f"### {emoji} `{label}`")
+                st.caption("Predicted category")
+            with col2:
+                st.metric("Confidence", f"{confidence:.1%}")
+
+            st.subheader("📊 Class probabilities")
+            for cls in sorted(result["probabilities"].keys()):
+                prob = result["probabilities"][cls]
+                bar_emoji = LABEL_EMOJI.get(cls, "📌")
+                st.progress(prob, text=f"{bar_emoji} {cls}: {prob:.1%}")
+
+            st.caption(
+                "⚠️ Confidence scores are model estimates, not guaranteed correctness. "
+                "This model is trained on 75 illustrative examples — results may not "
+                "reflect real-world performance."
+            )
+
+# ── Footer ────────────────────────────────────────────────────────────────────
+st.divider()
+st.caption(
+    "TaskTune · Supported labels: "
+    + " · ".join(f"{LABEL_EMOJI.get(l, '')} {l}" for l in sorted(ALLOWED_LABELS))
+)
