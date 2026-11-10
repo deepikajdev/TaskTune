@@ -43,13 +43,13 @@ class TestPredictMessageCLI(unittest.TestCase):
         result = self._run_cli("", "--file", str(DATASET_PATH))
 
         self.assertEqual(result.returncode, 1)
-        self.assertIn("Message cannot be empty", result.stderr)
+        self.assertIn("Message cannot be", result.stderr)
 
     def test_whitespace_message_is_reported(self) -> None:
         result = self._run_cli("   ", "--file", str(DATASET_PATH))
 
         self.assertEqual(result.returncode, 1)
-        self.assertIn("Message cannot be empty", result.stderr)
+        self.assertIn("Message cannot be", result.stderr)
 
     def test_missing_dataset_is_reported(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

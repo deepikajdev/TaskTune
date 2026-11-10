@@ -19,9 +19,9 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.predict_message import predict_with_confidence
 from src.validate_dataset import ALLOWED_LABELS
+from src.input_validation import MAX_MESSAGE_LENGTH, friendly_validation_error, validate_message
 
 DATASET_PATH = PROJECT_ROOT / "data" / "sample_dataset.jsonl"
-MAX_INPUT_LENGTH = 500
 LABEL_EMOJI = {
     "billing": "💳",
     "technical_support": "🔧",
@@ -46,7 +46,7 @@ st.subheader("📝 Classify a message")
 message = st.text_area(
     "Enter a customer message",
     placeholder="e.g. I was charged twice for my subscription this month.",
-    max_chars=MAX_INPUT_LENGTH,
+    max_chars=MAX_MESSAGE_LENGTH,
     height=120,
     help=f"Maximum {MAX_INPUT_LENGTH} characters. Must not be blank.",
 )
@@ -55,13 +55,13 @@ predict_clicked = st.button("🔍 Predict", type="primary", use_container_width=
 
 # ── Validation & Prediction ───────────────────────────────────────────────────
 if predict_clicked:
-    stripped = message.strip()
+    try:
+        stripped = validate_message(message)
+    except (TypeError, ValueError) as validation_exc:
+        st.error(friendly_validation_error(validation_exc))
+        stripped = None
 
-    if not stripped:
-        st.error("⚠️ Please enter a message before predicting.")
-    elif len(stripped) > MAX_INPUT_LENGTH:
-        st.error(f"⚠️ Message is too long ({len(stripped)} chars). Maximum is {MAX_INPUT_LENGTH}.")
-    else:
+    if stripped:
         with st.spinner("Classifying…"):
             try:
                 result = predict_with_confidence(stripped, DATASET_PATH)

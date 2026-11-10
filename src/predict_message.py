@@ -8,9 +8,11 @@ from typing import Any
 if __package__:
     from .train_baseline import create_classifier, load_dataset
     from .model_persistence import load_model, predict_with_model
+    from .input_validation import validate_message
 else:
     from train_baseline import create_classifier, load_dataset
     from model_persistence import load_model, predict_with_model
+    from input_validation import validate_message
 
 
 def predict_message(
@@ -27,9 +29,7 @@ def predict_message(
     predicted label, confidence, per-class probabilities, and an explanatory note.
     Otherwise, returns only the predicted label string.
     """
-    clean_message = message.strip()
-    if not clean_message:
-        raise ValueError("Message cannot be empty or contain only whitespace.")
+    clean_message = validate_message(message)
 
     if model_path is not None:
         model = load_model(model_path)
