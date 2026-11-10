@@ -21,6 +21,10 @@ from src.predict_message import predict_with_confidence
 from src.validate_dataset import ALLOWED_LABELS
 from src.input_validation import MAX_MESSAGE_LENGTH, friendly_validation_error, validate_message
 from src.prediction_history import add_history_record, clear_history
+from src.report_loader import get_baseline_metrics, get_cross_validation_metrics
+
+BASELINE_REPORT_PATH = PROJECT_ROOT / "results" / "baseline_comparison.json"
+CV_REPORT_PATH = PROJECT_ROOT / "results" / "cross_validation.json"
 
 DATASET_PATH = PROJECT_ROOT / "data" / "sample_dataset.jsonl"
 LABEL_EMOJI = {
@@ -104,6 +108,51 @@ if predict_clicked:
                 "This model is trained on 75 illustrative examples — results may not "
                 "reflect real-world performance."
             )
+
+# ── Model Metrics Dashboard Section ──────────────────────────────────────────
+st.divider()
+st.subheader("📊 Offline Evaluation Metrics")
+st.caption(
+    "Metrics loaded from saved benchmark reports (`results/baseline_comparison.json` & `results/cross_validation.json`). "
+    "These reflect offline evaluation on the 75-example sample dataset, not live production telemetry."
+)
+
+baseline = get_baseline_metrics(BASELINE_REPORT_PATH)
+if baseline:
+    m_col1, m_col2, m_col3 = st.columns(3)
+    with m_col1:
+        st.metric("Test Accuracy", f"{baseline['accuracy']:.1%}")
+    with m_col2:
+        st.metric("Macro F1", f"{baseline['macro_f1']:.3f}")
+    with m_col3:
+        st.metric("Dataset Split", f"{baseline['train_examples']} train / {baseline['test_examples']} test")
+
+    if baseline.get("per_class"):
+        st.markdown("**Per-Class Breakdown (Held-Out Test Set):**")
+        class_table = []
+        for cls_name, vals in sorted(baseline["per_class"].items()):
+            class_table.append({
+                "Category": f"{LABEL_EMOJI.get(cls_name, '📌')} {cls_name}",
+                "Precision": f"{vals.get('precision', 0.0):.1%}",
+                "Recall": f"{vals.get('recall', 0.0):.1%}",
+                "F1 Score": f"{vals.get('f1', 0.0):.3f}",
+                "Support": vals.get("support", 0),
+            })
+        st.table(class_table)
+else:
+    st.warning("⚠️ Baseline evaluation report not found. Run `python src/compare_baselines.py` to generate it.")
+
+cv = get_cross_validation_metrics(CV_REPORT_PATH)
+if cv:
+    with st.expander("📈 5-Fold Cross-Validation Summary"):
+        cv_col1, cv_col2 = st.columns(2)
+        with cv_col1:
+            st.metric("Mean CV Accuracy", f"{cv['mean_accuracy']:.1%}", delta=f"±{cv['std_accuracy']:.1%} std")
+        with cv_col2:
+            st.metric("Mean CV Macro F1", f"{cv['mean_macro_f1']:.3f}", delta=f"±{cv['std_macro_f1']:.3f} std")
+        st.caption("Fitted strictly within each fold's training split to eliminate data leakage.")
+elif not baseline:
+    st.info("Cross-validation report not found. Run `python src/evaluate_cross_validation.py` to generate it.")
 
 # ── Prediction History Section ───────────────────────────────────────────────
 st.divider()
