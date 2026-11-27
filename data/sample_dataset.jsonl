@@ -8,26 +8,6 @@
 {"text": "My payment failed this morning, but my card is active. How can I retry the transaction?", "label": "billing"}
 {"text": "Do you offer an educational or non-profit discount on your annual pricing plans?", "label": "billing"}
 {"text": "My coupon code SAVE20 was not applied during checkout and I was charged the full price.", "label": "billing"}
-{"text": "The web application keeps crashing with error code 500 whenever I try to export my CSV report.", "label": "technical_support"}
-{"text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.", "label": "technical_support"}
-{"text": "The desktop client crashes immediately upon launch on Windows 11.", "label": "technical_support"}
-{"text": "Webhook notifications are failing to trigger when new events occur in our workspace.", "label": "technical_support"}
-{"text": "File uploads larger than 10MB are timing out even though our network connection is stable.", "label": "technical_support"}
-{"text": "The search filter is returning inconsistent results and misses records created today.", "label": "technical_support"}
-{"text": "The mobile app audio output is muted during video playback on Android devices.", "label": "technical_support"}
-{"text": "API requests to the /v1/users endpoint are consistently returning a 504 Gateway Timeout.", "label": "technical_support"}
-{"text": "The dark mode toggle is broken on Safari and causes layout elements to overlap.", "label": "technical_support"}
-{"text": "Our automated data sync stopped working at midnight and no error message was shown in the console.", "label": "technical_support"}
-{"text": "I forgot my password and the reset link email is not arriving in my inbox or spam folder.", "label": "account_access"}
-{"text": "I got a new phone and lost access to my two-factor authenticator app. How can I recover my account?", "label": "account_access"}
-{"text": "My account has been locked after three incorrect PIN attempts. Please help me unlock it.", "label": "account_access"}
-{"text": "I need to update the primary email address linked to my login profile.", "label": "account_access"}
-{"text": "I received an alert about an unauthorized login attempt from an unrecognized location and want to secure my account.", "label": "account_access"}
-{"text": "My single sign-on (SSO) through Google is failing with an invalid session token message.", "label": "account_access"}
-{"text": "How do I revoke active login sessions on other devices after suspecting a security compromise?", "label": "account_access"}
-{"text": "The verification SMS code for login is not being delivered to my registered mobile number.", "label": "account_access"}
-{"text": "I am unable to switch between workspace organizations after logging into my profile.", "label": "account_access"}
-{"text": "Our team admin left the company. How can we transfer account ownership to another team member?", "label": "account_access"}
 {"text": "The price on my renewal notice is higher than last year. Which plan change caused the increase?", "label": "billing"}
 {"text": "Could you add our purchase order number to the invoice for this month's subscription?", "label": "billing"}
 {"text": "My refund was marked as completed, but it has not appeared on the original payment card yet.", "label": "billing"}
@@ -43,6 +23,91 @@
 {"text": "Please explain the extra usage charge on our statement; we did not expect to exceed the plan allowance.", "label": "billing"}
 {"text": "Where can I download invoices for the previous financial year?", "label": "billing"}
 {"text": "I need to change the billing contact from my personal email to our accounts-payable mailbox.", "label": "billing"}
+{"text": "Why was I billed for an enterprise add-on when our subscription tier is standard?", "label": "billing"}
+{"text": "Please send an itemized VAT invoice for our quarterly accounting audit.", "label": "billing"}
+{"text": "Can you remove the expired credit card ending in 4112 from my billing profile?", "label": "billing"}
+{"text": "We need to change our payment frequency from monthly to annually to take advantage of the discount.", "label": "billing"}
+{"text": "The auto-renewal charged my personal card instead of the company purchasing card.", "label": "billing"}
+{"text": "I was billed $120 for seats that were deactivated prior to the billing cutoff date.", "label": "billing"}
+{"text": "How can I set up direct debit (ACH) payments for our business account?", "label": "billing"}
+{"text": "Can you refund the overdraft fee caused by an unexpected billing retry?", "label": "billing"}
+{"text": "Our billing address changed after an office relocation; where can I update our company tax info?", "label": "billing"}
+{"text": "Can I pay for my annual subscription using a purchase order and invoice with net-30 terms?", "label": "billing"}
+{"text": "Why is there a $1 verification hold on my credit card statement?", "label": "billing"}
+{"text": "I would like to cancel my trial before the automatic billing cycle begins tomorrow.", "label": "billing"}
+{"text": "Where do I download past payment receipts for expense reimbursement?", "label": "billing"}
+{"text": "We need a credit note issued for the downtime SLA breach last month.", "label": "billing"}
+{"text": "Is it possible to split the invoice across two distinct corporate credit cards?", "label": "billing"}
+{"text": "I upgraded our plan three days ago but the pro-rata credit has not been applied.", "label": "billing"}
+{"text": "Can we negotiate volume tier pricing for a deployment exceeding 250 user licenses?", "label": "billing"}
+{"text": "My card issuer blocked the transaction thinking it was fraudulent; how do I re-attempt payment?", "label": "billing"}
+{"text": "Does your subscription pricing include applicable GST/HST for Canadian customers?", "label": "billing"}
+{"text": "We were billed twice in the same calendar month after changing our renewal date.", "label": "billing"}
+{"text": "Could you provide our procurement department with your company W-9 form and bank details?", "label": "billing"}
+{"text": "How do I apply a startup promotional credit voucher to our current balance?", "label": "billing"}
+{"text": "The currency on our checkout page is defaulting to GBP instead of USD.", "label": "billing"}
+{"text": "Why did our monthly subscription cost increase by 15% without advance email notice?", "label": "billing"}
+{"text": "Please cancel the pending invoice for the project space we never activated.", "label": "billing"}
+{"text": "Can you pause our billing cycle for two months while our team is on seasonal hiatus?", "label": "billing"}
+{"text": "I need a formal quote for 15 user seats before submitting a purchase requisition.", "label": "billing"}
+{"text": "How do I update the VAT ID number on past invoices already generated this year?", "label": "billing"}
+{"text": "A past refund was sent to a closed debit account; how can I redirect those funds?", "label": "billing"}
+{"text": "Why am I seeing recurring charges after submitting an account cancellation ticket last week?", "label": "billing"}
+{"text": "Can you extend our payment due date by seven business days while invoices are approved?", "label": "billing"}
+{"text": "What payment methods do you accept besides Visa and Mastercard?", "label": "billing"}
+{"text": "Our accounting team requires invoices to be sent directly to ap-invoicing@company.org.", "label": "billing"}
+{"text": "We were charged for storage overage, but our dashboard indicates we used only 60% of quota.", "label": "billing"}
+{"text": "Is there a penalty fee if we downgrade our plan tier before the contract ends?", "label": "billing"}
+{"text": "How do I obtain a receipt showing zero balance after settling an overdue payment?", "label": "billing"}
+{"text": "Can you re-invoice us in Euros rather than US Dollars for European tax compliance?", "label": "billing"}
+{"text": "The promo code WELCOME50 expired before I finished checking out; can you reactivate it?", "label": "billing"}
+{"text": "Why does my bank statement show a recurring charge from TaskTune when I only bought a single report?", "label": "billing"}
+{"text": "Please refund the accidental purchase of 5 extra collaborator seats made by our intern.", "label": "billing"}
+{"text": "Where in account settings can I specify custom billing notification recipients?", "label": "billing"}
+{"text": "Could you check if our wire transfer sent on Monday has been credited to invoice #4819?", "label": "billing"}
+{"text": "Are non-profit organizations eligible for waived onboarding setup fees?", "label": "billing"}
+{"text": "The invoice PDF download link in the billing notification email returns a 404 error.", "label": "billing"}
+{"text": "How does the prorated refund work if our business downsizes mid-quarter?", "label": "billing"}
+{"text": "I am being prompted to enter credit card details during what was advertised as a free tier.", "label": "billing"}
+{"text": "Can you consolidate our three separate department invoices into a single master statement?", "label": "billing"}
+{"text": "Why did our credit card payment fail with code 'insufficient_funds' when funds are available?", "label": "billing"}
+{"text": "Please send proof of payment for the annual maintenance fee for our corporate auditor.", "label": "billing"}
+{"text": "We need our tax exemption certificate retroactively applied to invoices from Q3.", "label": "billing"}
+{"text": "Is there an automatic discount applied when paying for two years upfront?", "label": "billing"}
+{"text": "My card was charged $15 for an unknown add-on feature that we did not configure.", "label": "billing"}
+{"text": "How do I switch the primary payment method to PayPal for automatic renewals?", "label": "billing"}
+{"text": "Can you remove the billing warning banner now that our invoice has been paid?", "label": "billing"}
+{"text": "We need to dispute an unauthorized charge appearing on our company corporate Amex.", "label": "billing"}
+{"text": "Why was our account charged an international foreign transaction conversion fee?", "label": "billing"}
+{"text": "Can I download all twelve monthly invoices from the previous fiscal year in a single archive?", "label": "billing"}
+{"text": "Please refund the difference between the standard price and our contracted partner discount.", "label": "billing"}
+{"text": "How can I verify which team administrator authorized the recent subscription upgrade?", "label": "billing"}
+{"text": "Our subscription lapsed because the card on file expired; how do we pay and restore service?", "label": "billing"}
+{"text": "Is it possible to receive billing notifications via SMS or Slack webhook in addition to email?", "label": "billing"}
+{"text": "The billing dashboard displays an overdue balance even though my bank confirms the debit cleared.", "label": "billing"}
+{"text": "Could you waive the reactivation charge since the payment delay was due to banking holidays?", "label": "billing"}
+{"text": "Where can I find our company's billing reference number to include on our payment remittence?", "label": "billing"}
+{"text": "We require our vendor onboarding form completed before we can release payment for invoice #902.", "label": "billing"}
+{"text": "Why does our invoice charge sales tax when our business is registered in Delaware?", "label": "billing"}
+{"text": "Can we pay our annual invoice via automated ACH credit transfer rather than credit card?", "label": "billing"}
+{"text": "The discount coupon code entered during registration did not deduct the 20% advertised savings.", "label": "billing"}
+{"text": "Please send an updated statement showing the credit balance carried over from last month.", "label": "billing"}
+{"text": "How do I request a formal tax invoice addressed to our legal entity in Singapore?", "label": "billing"}
+{"text": "Our department credit card was cancelled due to fraud; how do we update payment details without downtime?", "label": "billing"}
+{"text": "Can we adjust our billing cycle date so all our vendor invoices arrive on the 1st of the month?", "label": "billing"}
+{"text": "Why was our account charged for 12 seats when our user management list only shows 10 active members?", "label": "billing"}
+{"text": "Please refund the recurring charge that occurred after we submitted our cancellation form.", "label": "billing"}
+{"text": "Where do I download a formal W-8BEN form for international withholding tax reporting?", "label": "billing"}
+{"text": "The web application keeps crashing with error code 500 whenever I try to export my CSV report.", "label": "technical_support"}
+{"text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.", "label": "technical_support"}
+{"text": "The desktop client crashes immediately upon launch on Windows 11.", "label": "technical_support"}
+{"text": "Webhook notifications are failing to trigger when new events occur in our workspace.", "label": "technical_support"}
+{"text": "File uploads larger than 10MB are timing out even though our network connection is stable.", "label": "technical_support"}
+{"text": "The search filter is returning inconsistent results and misses records created today.", "label": "technical_support"}
+{"text": "The mobile app audio output is muted during video playback on Android devices.", "label": "technical_support"}
+{"text": "API requests to the /v1/users endpoint are consistently returning a 504 Gateway Timeout.", "label": "technical_support"}
+{"text": "The dark mode toggle is broken on Safari and causes layout elements to overlap.", "label": "technical_support"}
+{"text": "Our automated data sync stopped working at midnight and no error message was shown in the console.", "label": "technical_support"}
 {"text": "The settings page freezes when I try to save a new notification rule in our workspace.", "label": "technical_support"}
 {"text": "Images attached to support tickets appear as broken links for everyone on our team.", "label": "technical_support"}
 {"text": "The report export completes, but the downloaded spreadsheet is missing the last two columns.", "label": "technical_support"}
@@ -58,6 +123,91 @@
 {"text": "Audio recordings uploaded from an iPhone play at double speed in the web player.", "label": "technical_support"}
 {"text": "Search results include archived projects even when the archived-items option is turned off.", "label": "technical_support"}
 {"text": "The status page says our integration is connected, but new records have not synced since this morning.", "label": "technical_support"}
+{"text": "The web dashboard is failing to load with a blank white screen on Google Chrome version 122.", "label": "technical_support"}
+{"text": "File attachment uploads fail with 'Error 413: Payload Too Large' even though file is under 5MB.", "label": "technical_support"}
+{"text": "The background sync worker stops updating records after approximately 30 minutes of uptime.", "label": "technical_support"}
+{"text": "API calls to the /api/v2/reports endpoint return HTTP 502 Bad Gateway during peak morning hours.", "label": "technical_support"}
+{"text": "When exporting projects to PDF, the resulting document contains corrupted garbled font characters.", "label": "technical_support"}
+{"text": "The real-time collaboration canvas lags severely when more than three teammates edit simultaneously.", "label": "technical_support"}
+{"text": "My desktop client crashes with an unhandled memory segmentation fault on macOS Sonoma.", "label": "technical_support"}
+{"text": "Searching by tag returns zero matches even though items with that exact tag exist in the database.", "label": "technical_support"}
+{"text": "Webhook deliveries are failing with timeout errors when sending payloads to our AWS Lambda endpoint.", "label": "technical_support"}
+{"text": "The mobile app crashes immediately upon opening the camera view on iOS 17 devices.", "label": "technical_support"}
+{"text": "The data analytics chart widget is displaying negative values for total weekly visitor counts.", "label": "technical_support"}
+{"text": "Automated backup exports configured for Sunday midnight have failed to generate for two weeks.", "label": "technical_support"}
+{"text": "The table pagination controls become unresponsive after navigating past page five.", "label": "technical_support"}
+{"text": "Custom CSS stylesheets are ignored and fail to render in embedded client viewports.", "label": "technical_support"}
+{"text": "The system generates a duplicate record error when saving valid forms with unique titles.", "label": "technical_support"}
+{"text": "Email notifications contain broken thumbnail image links instead of rendered previews.", "label": "technical_support"}
+{"text": "WebSocket connections disconnect repeatedly every sixty seconds with code 1006 abnormal closure.", "label": "technical_support"}
+{"text": "The CSV importer crashes with a UnicodeDecodeError when encountering non-ASCII UTF-8 characters.", "label": "technical_support"}
+{"text": "Our Zapier integration stopped receiving trigger payloads after the platform maintenance update.", "label": "technical_support"}
+{"text": "The rich text editor deletes bullet point formatting when pasting content from Microsoft Word.", "label": "technical_support"}
+{"text": "Bulk operations on more than 50 rows trigger a browser script freeze warning.", "label": "technical_support"}
+{"text": "The application window renders completely black when hardware acceleration is enabled.", "label": "technical_support"}
+{"text": "Scheduled cron jobs fail to run in the staging environment despite showing active status.", "label": "technical_support"}
+{"text": "The Kanban board cards cannot be dragged across swimlanes using a touchscreen display.", "label": "technical_support"}
+{"text": "SSL certificate validation fails when connecting through our corporate proxy server.", "label": "technical_support"}
+{"text": "The filter dropdown menu closes immediately before a selection can be clicked.", "label": "technical_support"}
+{"text": "Clicking the download button triggers a spinner that rotates indefinitely without downloading.", "label": "technical_support"}
+{"text": "Push notifications are arriving on employee phones with a delay of over 45 minutes.", "label": "technical_support"}
+{"text": "The database connector throws 'connection pool exhausted' during automated nightly imports.", "label": "technical_support"}
+{"text": "Audio recorded inside the browser has severe distortion and background robotic buzzing.", "label": "technical_support"}
+{"text": "The syntax highlighting parser crashes when rendering markdown code blocks with TypeScript.", "label": "technical_support"}
+{"text": "Our self-hosted runner fails to check out git branches with an SSL handshake timeout.", "label": "technical_support"}
+{"text": "The application consumes over 4GB of RAM after running idle for several hours.", "label": "technical_support"}
+{"text": "Keyboard focus is trapped inside modal dialog boxes and cannot be closed with the Escape key.", "label": "technical_support"}
+{"text": "The print preview stylesheet strips out all grid column borders and page headers.", "label": "technical_support"}
+{"text": "Attempting to reorder items in the sidebar navigation causes the interface to crash and reload.", "label": "technical_support"}
+{"text": "The search bar autocomplete suggestions do not update when typing new query characters.", "label": "technical_support"}
+{"text": "Our Slack bot integration stopped posting automated channel updates after the OAuth refresh.", "label": "technical_support"}
+{"text": "Video file processing fails with an unsupported codec error for standard MP4 H.264 files.", "label": "technical_support"}
+{"text": "The user activity audit log shows blank rows with missing timestamps for yesterday's actions.", "label": "technical_support"}
+{"text": "The application fails to start on Ubuntu 22.04 with a missing shared library libssl.so error.", "label": "technical_support"}
+{"text": "Form input fields lose their entered values when switching between browser tabs.", "label": "technical_support"}
+{"text": "The dark mode theme resets to default light mode upon navigating to any sub-page.", "label": "technical_support"}
+{"text": "Batch email delivery fails with SMTP connection refused on port 587.", "label": "technical_support"}
+{"text": "The date picker calendar renders off-screen and cannot be clicked on mobile viewport widths.", "label": "technical_support"}
+{"text": "Images uploaded in HEIC format fail to convert and appear as empty gray squares.", "label": "technical_support"}
+{"text": "The REST API returns 400 Bad Request for valid JSON payloads containing null properties.", "label": "technical_support"}
+{"text": "Real-time cursors of team members jump erratically across the canvas during collaborative sessions.", "label": "technical_support"}
+{"text": "The undo keyboard shortcut (Ctrl+Z) deletes the entire document contents instead of the last edit.", "label": "technical_support"}
+{"text": "Connecting external Bluetooth headphones causes audio input playback in the app to stop working.", "label": "technical_support"}
+{"text": "The application window fails to restore from minimized state on dual-monitor Windows setups.", "label": "technical_support"}
+{"text": "The full-text search index appears stale and does not index documents modified this morning.", "label": "technical_support"}
+{"text": "Hover tooltips stay permanently stuck on screen after the cursor has moved away.", "label": "technical_support"}
+{"text": "Database migration script fails with a syntax error near table constraints on PostgreSQL 15.", "label": "technical_support"}
+{"text": "The web app does not load behind our Cloudflare reverse proxy due to too many redirect loops.", "label": "technical_support"}
+{"text": "File download links expire after 30 seconds before large asset downloads can finish transferring.", "label": "technical_support"}
+{"text": "The performance monitor shows constant 100% CPU utilization by the background telemetry thread.", "label": "technical_support"}
+{"text": "Clicking the 'Save Changes' button in project settings displays a generic unhandled exception error.", "label": "technical_support"}
+{"text": "The spreadsheet import tool maps column headers to the wrong database schema attributes.", "label": "technical_support"}
+{"text": "Mobile app geolocation tracking fails to acquire coordinates on Android 14 devices.", "label": "technical_support"}
+{"text": "The PDF generator cuts off table content halfway down the page instead of breaking into page two.", "label": "technical_support"}
+{"text": "Graph visualization fails to render nodes when the network graph contains circular dependencies.", "label": "technical_support"}
+{"text": "The embedded iframe widget displays a Content Security Policy (CSP) blocking violation in console.", "label": "technical_support"}
+{"text": "Auto-save fails silently and loses unsaved draft edits when network connectivity momentarily drops.", "label": "technical_support"}
+{"text": "The desktop application installer fails on Windows with an 'invalid digital signature' warning.", "label": "technical_support"}
+{"text": "Our webhook endpoint receives duplicate event deliveries for the exact same event ID.", "label": "technical_support"}
+{"text": "The search filter by date range returns records from the day before the selected start date.", "label": "technical_support"}
+{"text": "Screen sharing during video conferencing produces a completely black screen on Wayland Linux.", "label": "technical_support"}
+{"text": "The dashboard metric widgets display NaN instead of numerical values for calculated conversion rates.", "label": "technical_support"}
+{"text": "Copying and pasting table cells into external spreadsheets results in mangled tab-delimited text.", "label": "technical_support"}
+{"text": "The system fails to process incoming emails with attachments larger than 8MB.", "label": "technical_support"}
+{"text": "The application hangs indefinitely on the splash screen when launched without an active internet connection.", "label": "technical_support"}
+{"text": "Browser console displays hundreds of uncaught TypeError exceptions when opening user analytics.", "label": "technical_support"}
+{"text": "The multi-select dropdown closes automatically after choosing a single option instead of staying open.", "label": "technical_support"}
+{"text": "Exported JSON files contain trailing commas which cause third-party parsers to fail syntax checks.", "label": "technical_support"}
+{"text": "I forgot my password and the reset link email is not arriving in my inbox or spam folder.", "label": "account_access"}
+{"text": "I got a new phone and lost access to my two-factor authenticator app. How can I recover my account?", "label": "account_access"}
+{"text": "My account has been locked after three incorrect PIN attempts. Please help me unlock it.", "label": "account_access"}
+{"text": "I need to update the primary email address linked to my login profile.", "label": "account_access"}
+{"text": "I received an alert about an unauthorized login attempt from an unrecognized location and want to secure my account.", "label": "account_access"}
+{"text": "My single sign-on (SSO) through Google is failing with an invalid session token message.", "label": "account_access"}
+{"text": "How do I revoke active login sessions on other devices after suspecting a security compromise?", "label": "account_access"}
+{"text": "The verification SMS code for login is not being delivered to my registered mobile number.", "label": "account_access"}
+{"text": "I am unable to switch between workspace organizations after logging into my profile.", "label": "account_access"}
+{"text": "Our team admin left the company. How can we transfer account ownership to another team member?", "label": "account_access"}
 {"text": "I no longer have access to the email address where password reset links are sent.", "label": "account_access"}
 {"text": "My invitation says it has expired, and the workspace owner cannot find a way to resend it.", "label": "account_access"}
 {"text": "I changed my phone number and need to replace the number used for login verification.", "label": "account_access"}
@@ -73,3 +223,78 @@
 {"text": "Our new administrator needs owner permissions, but the current owner has left and is unreachable.", "label": "account_access"}
 {"text": "I signed out everywhere, but one browser session still appears as active in my security settings.", "label": "account_access"}
 {"text": "The password manager fills my password correctly, but login says the account cannot be found.", "label": "account_access"}
+{"text": "I am locked out of my account after entering my old password several times consecutively.", "label": "account_access"}
+{"text": "The two-factor authentication SMS code is not arriving on my registered cell phone.", "label": "account_access"}
+{"text": "I need to transfer primary workspace administrator ownership to our new IT director.", "label": "account_access"}
+{"text": "How can I set up hardware security key (FIDO2 / YubiKey) authentication on my account?", "label": "account_access"}
+{"text": "My Google Single Sign-On (SSO) login fails with an 'unauthorized_client' error message.", "label": "account_access"}
+{"text": "I no longer have access to the email address registered on my account to receive reset emails.", "label": "account_access"}
+{"text": "Can you reset my two-factor authentication because I lost my phone and backup recovery codes?", "label": "account_access"}
+{"text": "Our SAML 2.0 Okta integration is failing with 'Invalid assertion consumer service URL'.", "label": "account_access"}
+{"text": "How do I revoke access tokens for third-party integrations connected to my profile?", "label": "account_access"}
+{"text": "I received a security alert regarding an unrecognized login from Germany; please secure my profile.", "label": "account_access"}
+{"text": "My invitation link to join the team workspace says it has already been claimed or expired.", "label": "account_access"}
+{"text": "How do I change my primary account login email without creating an entirely new user account?", "label": "account_access"}
+{"text": "The password reset link provided in the email gives an 'expired token' error immediately.", "label": "account_access"}
+{"text": "I need to remove two former employees from our company account so they cannot view internal data.", "label": "account_access"}
+{"text": "My account was temporarily suspended for suspicious activity, but I was traveling internationally.", "label": "account_access"}
+{"text": "How can I view all active sessions and remotely log out of devices I left in the office?", "label": "account_access"}
+{"text": "Can you help me merge two separate TaskTune accounts registered under different personal emails?", "label": "account_access"}
+{"text": "The authenticator app generated codes are being rejected as invalid due to time synchronization.", "label": "account_access"}
+{"text": "I am not receiving the email verification confirmation link required to activate my new account.", "label": "account_access"}
+{"text": "How do we configure Azure Active Directory SSO for our entire enterprise organization domain?", "label": "account_access"}
+{"text": "A team member left the company without leaving their master account credentials; how do we recover it?", "label": "account_access"}
+{"text": "I am getting an 'Access Denied: Missing Permissions' error when trying to access my own projects.", "label": "account_access"}
+{"text": "How can I enable mandatory two-factor authentication enforcement for all workspace members?", "label": "account_access"}
+{"text": "I need to update my display name and profile avatar, but the save changes button is disabled.", "label": "account_access"}
+{"text": "My user role was accidentally changed from Admin to Guest; can an administrator restore my role?", "label": "account_access"}
+{"text": "I suspect my account credentials were exposed in a third-party breach; how do I force a password reset?", "label": "account_access"}
+{"text": "The single sign-on login page is stuck in an infinite redirect loop between our IdP and TaskTune.", "label": "account_access"}
+{"text": "Can you resend the team invitation email to my coworker whose invite link got deleted by spam filters?", "label": "account_access"}
+{"text": "I am unable to switch between our staging workspace and production workspace from the account menu.", "label": "account_access"}
+{"text": "Where can I generate a personal API access token with read-only permissions for our data warehouse?", "label": "account_access"}
+{"text": "The biometric fingerprint authentication on the mobile application is not recognizing my login.", "label": "account_access"}
+{"text": "How do I delete my personal account and permanently remove all stored personal information?", "label": "account_access"}
+{"text": "Why does my account indicate that my trial has expired when our admin invited me to a paid team?", "label": "account_access"}
+{"text": "I cannot access my team space because the system says my account email domain is not whitelisted.", "label": "account_access"}
+{"text": "How do I re-enable an account that was deactivated by our system administrator last week?", "label": "account_access"}
+{"text": "Can I use both an authenticator app and SMS verification as backup 2FA methods simultaneously?", "label": "account_access"}
+{"text": "The password complexity policy is rejecting my new password even though it meets all requirements.", "label": "account_access"}
+{"text": "Our company rebranded and our email domain changed; how do we migrate our existing accounts?", "label": "account_access"}
+{"text": "I was removed from our workspace accidentally; can my previous access permissions be restored?", "label": "account_access"}
+{"text": "How do I set up session timeout policies so users are automatically logged out after 30 minutes of inactivity?", "label": "account_access"}
+{"text": "I need to verify my identity to regain access to an old account whose security questions I forgot.", "label": "account_access"}
+{"text": "Why am I prompted for two-factor authentication every single time I open a new browser tab?", "label": "account_access"}
+{"text": "Can our company enforce IP address whitelisting to restrict account access to our VPN network?", "label": "account_access"}
+{"text": "How do I change the phone number configured for SMS two-step authentication backup codes?", "label": "account_access"}
+{"text": "My account displays 'account deactivated by administrator'; who should I contact to review this?", "label": "account_access"}
+{"text": "I accepted a workspace invite, but after signing in I am prompted to create a brand new organization.", "label": "account_access"}
+{"text": "How can I download a comprehensive audit log of all logins and IP addresses for my account?", "label": "account_access"}
+{"text": "I am unable to reset my PIN on the mobile application because the verification link does not open.", "label": "account_access"}
+{"text": "Our SSO certificate expired over the weekend and none of our 80 employees can log in.", "label": "account_access"}
+{"text": "Where can I view which third-party OAuth applications currently have access to my user data?", "label": "account_access"}
+{"text": "The verification code email is taking over 20 minutes to arrive, by which time the code has expired.", "label": "account_access"}
+{"text": "How do I grant temporary guest access permissions to an external freelance consultant?", "label": "account_access"}
+{"text": "My password manager cannot autofill credentials because the login username and password fields are split across screens.", "label": "account_access"}
+{"text": "I need to recover access to an account whose owner passed away, with legal documentation provided.", "label": "account_access"}
+{"text": "Why does the system log me out immediately after I enter my correct password and 2FA code?", "label": "account_access"}
+{"text": "Can we restrict member logins to only allow corporate Google Workspace accounts rather than personal emails?", "label": "account_access"}
+{"text": "How do I remove an old phone number from my security settings that I no longer possess?", "label": "account_access"}
+{"text": "I am unable to unlink my GitHub account from my TaskTune login profile.", "label": "account_access"}
+{"text": "Our security team requires multi-factor authentication reset logs for our annual compliance audit.", "label": "account_access"}
+{"text": "Where do I enter the one-time backup recovery codes when my authentication device is offline?", "label": "account_access"}
+{"text": "Why does my login session expire after only five minutes of typing in the application editor?", "label": "account_access"}
+{"text": "Can an organization owner bypass 2FA for a user who broke their physical security key?", "label": "account_access"}
+{"text": "How do I invite external clients with restricted view-only permissions to specific project folders?", "label": "account_access"}
+{"text": "My account is stuck in 'pending verification' status even though I clicked the activation link.", "label": "account_access"}
+{"text": "Can you help me recover access after my email provider shut down my old university address?", "label": "account_access"}
+{"text": "How do I set up SCIM provisioning to automatically sync users from our employee directory?", "label": "account_access"}
+{"text": "I keep getting an 'invalid session credentials' error when switching between my laptop and mobile app.", "label": "account_access"}
+{"text": "Is it possible to disable password login entirely and mandate SAML SSO for all team members?", "label": "account_access"}
+{"text": "Where can I find the list of active API keys and their respective creation timestamps?", "label": "account_access"}
+{"text": "The magic link login email is blocked by our corporate email quarantine gateway.", "label": "account_access"}
+{"text": "How do I remove an unauthorized device listed under 'Active Devices' in my security settings?", "label": "account_access"}
+{"text": "I cannot accept an invitation because my email is already linked to an inactive individual account.", "label": "account_access"}
+{"text": "Why does the mobile app ask for full account re-authentication every time it is backgrounded?", "label": "account_access"}
+{"text": "Can you verify why our employee's email address is rejected as an invalid format during team signup?", "label": "account_access"}
+{"text": "How do I transfer workspace ownership when the current owner is no longer with our organization?", "label": "account_access"}
