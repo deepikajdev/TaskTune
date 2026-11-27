@@ -13,17 +13,36 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
 if __package__:
-    from .validate_dataset import validate_dataset
+    from .validate_dataset import clean_text, validate_dataset
 else:
-    from validate_dataset import validate_dataset
+    from validate_dataset import clean_text, validate_dataset
 
 
 def create_classifier(random_state: int = 42) -> Pipeline:
-    """Create the project's standard TF-IDF and Logistic Regression pipeline."""
+    """Create the project's standard TF-IDF and Logistic Regression pipeline.
+
+    Uses sublinear TF-IDF scaling and unigram + bigram features to capture
+    both distinct vocabulary and multi-word intent phrases (e.g. 'sign in',
+    'credit card', 'error code') while preventing overfitting.
+    """
     return Pipeline(
         [
-            ("tfidf", TfidfVectorizer()),
-            ("classifier", LogisticRegression(max_iter=1000, random_state=random_state)),
+            (
+                "tfidf",
+                TfidfVectorizer(
+                    ngram_range=(1, 2),
+                    sublinear_tf=True,
+                    min_df=1,
+                ),
+            ),
+            (
+                "classifier",
+                LogisticRegression(
+                    max_iter=1000,
+                    random_state=random_state,
+                    C=1.0,
+                ),
+            ),
         ]
     )
 
@@ -49,7 +68,7 @@ def load_dataset(file_path: Path | str) -> tuple[list[str], list[str]]:
                     raise ValueError(
                         f"Dataset changed or became invalid at line {line_number}: {exc.msg}."
                     ) from exc
-                texts.append(record["text"])
+                texts.append(clean_text(record["text"]))
                 labels.append(record["label"])
     except OSError as exc:
         raise OSError(f"Could not read dataset file '{path}': {exc}") from exc
