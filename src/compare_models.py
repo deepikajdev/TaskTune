@@ -20,6 +20,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import time
 from typing import Any
 
 import sklearn
@@ -31,26 +32,28 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
 if __package__:
-    from .train_baseline import load_dataset
+    from .train_baseline import create_classifier, load_dataset
 else:
-    from train_baseline import load_dataset
+    from train_baseline import create_classifier, load_dataset
 
 
 def create_logistic_regression_pipeline(random_state: int = 42) -> Pipeline:
-    """Create a TF-IDF + Logistic Regression pipeline."""
-    return Pipeline(
-        [
-            ("tfidf", TfidfVectorizer()),
-            ("classifier", LogisticRegression(max_iter=1000, random_state=random_state)),
-        ]
-    )
+    """Create the project standard TF-IDF + Logistic Regression pipeline."""
+    return create_classifier(random_state=random_state)
 
 
 def create_naive_bayes_pipeline() -> Pipeline:
-    """Create a TF-IDF + Multinomial Naive Bayes pipeline."""
+    """Create a matching TF-IDF + Multinomial Naive Bayes pipeline."""
     return Pipeline(
         [
-            ("tfidf", TfidfVectorizer()),
+            (
+                "tfidf",
+                TfidfVectorizer(
+                    ngram_range=(1, 2),
+                    sublinear_tf=True,
+                    min_df=1,
+                ),
+            ),
             ("classifier", MultinomialNB()),
         ]
     )
@@ -138,19 +141,35 @@ def compare_models(
     # Model 1: Logistic Regression
     lr_pipeline = create_logistic_regression_pipeline(random_state)
     lr_pipeline.fit(train_texts, train_labels)
+    start_lr = time.perf_counter()
     lr_preds = lr_pipeline.predict(test_texts).tolist()
+    lr_inf_time = time.perf_counter() - start_lr
     lr_metrics = _evaluate(test_labels, lr_preds, label_order)
+    lr_latency_ms = (lr_inf_time / len(test_texts)) * 1000.0 if test_texts else 0.0
+    lr_metrics["inference_time_seconds"] = round(lr_inf_time, 6)
+    lr_metrics["latency_ms_per_sample"] = round(lr_latency_ms, 4)
 
     # Model 2: Multinomial Naive Bayes
     nb_pipeline = create_naive_bayes_pipeline()
     nb_pipeline.fit(train_texts, train_labels)
+    start_nb = time.perf_counter()
     nb_preds = nb_pipeline.predict(test_texts).tolist()
+    nb_inf_time = time.perf_counter() - start_nb
     nb_metrics = _evaluate(test_labels, nb_preds, label_order)
+    nb_latency_ms = (nb_inf_time / len(test_texts)) * 1000.0 if test_texts else 0.0
+    nb_metrics["inference_time_seconds"] = round(nb_inf_time, 6)
+    nb_metrics["latency_ms_per_sample"] = round(nb_latency_ms, 4)
 
     # Side-by-side difference summary (Logistic Regression minus Naive Bayes)
     comparison_summary = {
         "accuracy_diff": round(lr_metrics["accuracy"] - nb_metrics["accuracy"], 4),
         "macro_f1_diff": round(lr_metrics["macro_f1"] - nb_metrics["macro_f1"], 4),
+        "latency_diff_ms": round(lr_latency_ms - nb_latency_ms, 4),
+        "faster_inference_model": (
+            "logistic_regression"
+            if lr_latency_ms < nb_latency_ms
+            else ("multinomial_nb" if nb_latency_ms < lr_latency_ms else "tied")
+        ),
         "higher_accuracy_model": (
             "logistic_regression"
             if lr_metrics["accuracy"] > nb_metrics["accuracy"]
