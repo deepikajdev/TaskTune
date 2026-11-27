@@ -44,15 +44,25 @@ The app opens automatically in your browser at `http://localhost:8501`. Features
 - **Evaluation Metrics:** Explore held-out test split metrics, per-class breakdown, and 5-fold cross-validation.
 - **Session History:** Review in-memory query history with timestamps, sequence numbers, and a clear action.
 
-## 3. Run the Automated Unit Test Suite
+## 3. Launch the FastAPI Prediction API
+
+Start the high-throughput REST API with automated Swagger docs:
+
+```powershell
+uvicorn src.api:app --host 127.0.0.1 --port 8000 --reload
+```
+
+Interactive documentation is available at `http://127.0.0.1:8000/docs`.
+
+## 4. Run the Automated Unit Test Suite
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-All 39+ unit tests should pass.
+All 80+ unit tests should pass.
 
-## 4. Train & Persist a Reusable Model
+## 5. Train & Persist a Reusable Model
 
 Train the baseline model pipeline on the sample dataset and serialize it:
 

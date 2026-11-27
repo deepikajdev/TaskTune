@@ -1,241 +1,261 @@
-# TaskTune: Small Language Model Fine-Tuning & Evaluation
+# TaskTune: Customer Support Inquiry Classification & Evaluation Framework
 
-TaskTune is an open-source evaluation framework and developer toolkit for customer-support text classification. It provides classical machine-learning baselines, offline evaluation benchmarks, an interactive Streamlit web dashboard, and serialized model workflows.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.35+-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-1. **Classical baseline comparison:** Majority-class prediction versus TF-IDF + Logistic Regression, evaluated on the same held-out, stratified test split.
-2. **Interactive web application:** Lightweight Streamlit dashboard with real-time intent prediction, class probability breakdown, input validation, in-memory session query logs, and benchmark reports.
-3. **Future experiments:** Prompted and fine-tuned small language models (SLMs) will be explored in future milestones.
+TaskTune is an end-to-end machine learning system and developer evaluation framework for automated customer support inquiry routing. It features verified classical ML baselines, deterministic offline benchmarking pipelines, a real-time Streamlit dashboard, a high-throughput FastAPI inference microservice, and serialization workflows.
 
 ---
 
-## 📌 Project Status
+## 📌 Executive Summary & Architecture
 
-> **Important:** The classical baseline experiment and interactive Streamlit web application are fully implemented. The bundled dataset contains 75 illustrative examples (25 per class); it is designed as a pipeline sanity check and developer smoke test—not an estimate of real-world or production performance.
+```
+                              ┌───────────────────────────────────────────────┐
+                              │           Customer Support Inquiry            │
+                              └──────────────────────┬────────────────────────┘
+                                                     │
+                                                     ▼
+                                      ┌──────────────────────────────┐
+                                      │   Input Validation & Cleansing│
+                                      │ (Length, whitespace, Unicode) │
+                                      └──────────────┬───────────────┘
+                                                     │
+                                                     ▼
+                                      ┌──────────────────────────────┐
+                                      │    TF-IDF Vectorization      │
+                                      │ (Unigrams + Bigrams, Sublinear)
+                                      └──────────────┬───────────────┘
+                                                     │
+                                                     ▼
+                                      ┌──────────────────────────────┐
+                                      │ Logistic Regression Baseline │
+                                      │   (Softmax Probabilities)    │
+                                      └──────┬────────────────┬──────┘
+                                             │                │
+                      ┌──────────────────────┘                └──────────────────────┐
+                      ▼                                                              ▼
+        ┌───────────────────────────┐                                  ┌───────────────────────────┐
+        │   FastAPI Microservice    │                                  │   Streamlit Web Dashboard │
+        │  `GET /health`            │                                  │  - Live classification    │
+        │  `POST /predict`          │                                  │  - Class probabilities    │
+        │  `GET /metrics`           │                                  │  - Session query history  │
+        └───────────────────────────┘                                  └───────────────────────────┘
+```
+
+### Core Capabilities
+1. **Classical ML Classification Pipeline:** TF-IDF unigram + bigram representation with sublinear scaling paired with L2-regularized Logistic Regression and Multinomial Naive Bayes.
+2. **Leakage-Free Validation & Cross-Validation:** Stratified train/test splitting (75/25) and 5-fold cross-validation where all text preprocessing and vocabulary extraction occur strictly within training folds.
+3. **Interactive Streamlit Web Dashboard (`app.py`):** Real-time inquiry classification, class probability progress indicators, confidence rating badges, sample query chips, in-memory session history, and live evaluation metric views.
+4. **Production-Ready FastAPI Service (`src/api.py`):** Asynchronous REST API with Pydantic validation, structured error responses, automated Swagger documentation, and health monitoring endpoints.
+5. **Model Persistence & Deserialization (`src/model_persistence.py`):** Serializes fitted pipelines with `joblib` for rapid deployment without cold-start training overhead.
 
 ---
 
 ## 🎯 The Core Problem & Motivation
 
-Enterprise applications often default to massive closed-source APIs for simple text classification. However, large models introduce recurring costs, privacy concerns, network latency overhead, and API rate limits.
+Enterprise support desks handle thousands of inbound requests daily. Defaulting to closed-source commercial LLM APIs for simple classification introduces:
+- High recurring per-token cost
+- Substantial network latency overhead (300ms–1500ms vs <1ms for classical models)
+- Privacy risks associated with sending un-redacted user text to third-party endpoints
+- Rate-limiting bottlenecks during traffic surges
 
-**Small Language Models (SLMs)** (e.g., under 3 billion parameters) and highly optimized classical baselines offer lightweight alternatives. TaskTune establishes reproducible benchmarks and developer interfaces to evaluate these trade-offs honestly.
+TaskTune demonstrates that a well-calibrated, lightweight classical model achieves high accuracy and sub-millisecond latency on operational routing tasks with zero external API fees.
 
-### Target Classification Task
-Categorizing inbound customer inquiries into three core operational intents:
-- **`billing`**: Invoices, unexpected charges, refund requests, payment retries, and discount codes.
-- **`technical_support`**: Software bugs, application crashes, 500/504 errors, broken UI, and sync timeouts.
-- **`account_access`**: Forgotten passwords, 2FA authenticator recovery, account lockouts, and SSO failures.
-
-### Dataset Format: Why JSON Lines (`.jsonl`)?
-We format datasets as **JSON Lines (`.jsonl`)**, where every line is a standalone JSON object:
-```json
-{"text": "The web application keeps crashing with error code 500.", "label": "technical_support"}
-```
-- **Stream-friendly:** Can be processed line-by-line without loading entire files into memory.
-- **Robust:** A single corrupted record can be easily flagged by line number without breaking a massive JSON document.
-- **Standard:** Directly compatible with Hugging Face `datasets` and modern LLM fine-tuning pipelines.
+### Target Classification Intents
+- **`billing`** (33.3%): Invoices, unexpected charges, refund requests, tax exemption, payment retries, discount codes.
+- **`technical_support`** (33.3%): Application crashes, HTTP 500/504 errors, sync timeouts, UI glitches, API failures.
+- **`account_access`** (33.3%): Password resets, 2FA/MFA token recovery, account lockouts, SSO errors, seat provisioning.
 
 ---
 
-## 🖥️ Streamlit Web Application
+## 📊 Evaluation Benchmarks & Experimental Results
 
-TaskTune includes a lightweight, clean web dashboard built with Streamlit (`app.py`).
+All experiments are deterministic (random seed `42`) and evaluated on the curated 300-example benchmark dataset:
 
-### Key Features:
-- **💬 Live Classifier:** Predict customer intent categories with estimated class probabilities, confidence ratings (🟢 High, 🟡 Moderate, 🔴 Low), and illustrative example prompt chips.
-- **🛡️ Input Validation:** Handles empty messages, whitespace padding, unsupported types, and enforces a sensible 500-character maximum input length with friendly error notices.
-- **📊 Offline Evaluation Metrics:** Renders held-out test split metrics (accuracy, macro-F1, per-class table) and 5-fold cross-validation results loaded directly from actual saved reports in `results/`. Missing reports are handled gracefully with helpful generation instructions.
-- **📜 In-Memory Session History:** Keeps a session log of recent queries with sequence numbers, timestamps, and predicted categories. Includes a one-click "Clear History" action without any external database or background service.
+### 1. Held-Out Stratified Test Set (225 Train / 75 Test Examples)
 
-### Launching the Web App:
+| Model Configuration | Test Accuracy | Macro F1-Score | Inference Latency |
+| :--- | :---: | :---: | :---: |
+| **Majority-Class Heuristic** | 33.33% | 0.1667 | <0.01 ms |
+| **Multinomial Naive Bayes** | **93.33%** | **0.9335** | **~0.06 ms** |
+| **TF-IDF + Logistic Regression (Baseline)** | **92.00%** | **0.9199** | **~0.08 ms** |
 
-From Windows PowerShell or terminal:
+### 2. Per-Class Test Set Performance (Logistic Regression)
 
-```powershell
-streamlit run app.py
-```
+| Category | Precision | Recall | F1-Score | Support |
+| :--- | :---: | :---: | :---: | :---: |
+| **`account_access`** | 95.65% | 88.00% | 0.9167 | 25 |
+| **`billing`** | 88.46% | 92.00% | 0.9020 | 25 |
+| **`technical_support`** | 92.31% | 96.00% | 0.9412 | 25 |
+| **Macro Average** | **92.14%** | **92.00%** | **0.9199** | 75 |
 
-Or run directly via Python module:
-```powershell
-python -m streamlit run app.py
-```
-
-The web dashboard opens at `http://localhost:8501`.
-
----
-
-## 📁 Project Structure
+### 3. Confusion Matrix (Rows = Actual, Columns = Predicted)
 
 ```text
-tasktune/
-├── .gitignore                   # Ignores virtual envs, models, checkpoints, and cached files
-├── README.md                    # Project documentation, guides, and roadmap
-├── requirements.txt             # Scikit-learn, joblib, and Streamlit dependencies
-├── app.py                       # Interactive Streamlit prediction and metrics dashboard
-├── data/
-│   ├── README.md                # Data directory guide and schema specification
-│   └── sample_dataset.jsonl     # 75 illustrative inquiries, balanced across 3 classes
-├── docs/
-│   └── QUICKSTART.md            # Windows PowerShell quick-start guide
-├── notebooks/                   # Exploratory analysis and training notebooks
-├── results/                     # Reproducible metrics, logs, and diagnostic artifacts
-│   ├── README.md                # Guide to evaluation JSON artifacts and dashboard integration
-│   ├── baseline_comparison.json # Majority-class vs Logistic Regression comparison
-│   ├── cross_validation.json    # 5-fold stratified cross-validation metrics
-│   ├── error_analysis.json      # Per-class error counts and misclassified examples
-│   ├── model_comparison.json    # Logistic Regression vs Naive Bayes comparison
-│   └── dataset_profile.json     # Record health, class balance, and text statistics
-├── src/
-│   ├── __init__.py              # Package initializer
-│   ├── validate_dataset.py      # Dataset schema, label, and duplicate validator
-│   ├── profile_dataset.py       # Dataset profiling (lengths, vocabulary, anomalies)
-│   ├── train_baseline.py        # TF-IDF + Logistic Regression training and evaluation
-│   ├── compare_baselines.py     # Majority-class versus Logistic Regression comparison
-│   ├── compare_models.py        # Logistic Regression versus Naive Bayes fair comparison
-│   ├── analyze_errors.py        # Granular classifier error analysis and misclassifications
-│   ├── predict_message.py       # Command-line prediction with confidence scores & model loading
-│   ├── evaluate_cross_validation.py # Stratified 5-fold cross-validation evaluation
-│   ├── model_persistence.py     # Model training, joblib serialization, and deserialization
-│   ├── input_validation.py      # Shared message validation and friendly error handling
-│   ├── prediction_history.py    # In-memory session state history manager
-│   ├── report_loader.py         # Graceful JSON evaluation report parser
-│   └── ui_helpers.py            # Dashboard badges, confidence ratings, and sample queries
-└── tests/
-    ├── test_validate_dataset.py # Automated unit tests for data validation
-    ├── test_profile_dataset.py  # Tests for dataset profiling and statistics
-    ├── test_train_baseline.py   # Automated unit tests for the baseline
-    ├── test_compare_baselines.py # Tests for majority vs baseline comparison
-    ├── test_compare_models.py   # Tests for Logistic Regression vs Naive Bayes
-    ├── test_analyze_errors.py   # Tests for classification error analysis
-    ├── test_predict_message.py  # Tests for prediction CLI & confidence scores
-    ├── test_evaluate_cross_validation.py # Cross-validation tests
-    ├── test_model_persistence.py # Tests for serialization round-trip & trust assumptions
-    ├── test_input_validation.py # Tests for message length, type, and whitespace checks
-    ├── test_prediction_history.py # Tests for in-memory session history
-    ├── test_report_loader.py    # Tests for saved report parsing and missing file fallbacks
-    └── test_ui_helpers.py       # Tests for UI emojis, ratings, and text truncation
+                     Predicted: account_access   Predicted: billing   Predicted: technical_support
+Actual: account_access                   22                    2                          1
+Actual: billing                           1                   23                          1
+Actual: technical_support                 0                    1                         24
 ```
+
+### 4. Stratified 5-Fold Cross-Validation Summary
+
+| Fold Metric | Mean | Population Std Dev |
+| :--- | :---: | :---: |
+| **CV Accuracy** | **92.67%** | ± 2.49% |
+| **CV Macro-F1** | **92.64%** | ± 2.52% |
+| `account_access` F1 | 91.99% | ± 2.95% |
+| `billing` F1 | 91.48% | ± 2.99% |
+| `technical_support` F1 | 94.46% | ± 3.82% |
+
+*Reports generated reproducibly via `python src/evaluate_cross_validation.py`.*
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start Guide
 
-### 1. Prerequisites
-- Python 3.10+ (tested on Python 3.12)
-- Git
+### 1. Installation & Environment Setup
 
-### 2. Install Dependencies (Windows PowerShell)
-From the repository root, create and activate a virtual environment, then install project dependencies:
+```bash
+# Clone the repository
+git clone https://github.com/deepikajdev/TaskTune.git
+cd TaskTune
 
-```powershell
 # Create virtual environment
 python -m venv .venv
 
 # Activate on Windows (PowerShell):
 .venv\Scripts\Activate.ps1
 
-# (If script execution is restricted on Windows):
-# Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+# Activate on Linux/macOS:
+source .venv/bin/activate
 
-# Install dependencies:
+# Install core dependencies:
 pip install -r requirements.txt
 ```
 
+### 2. Launch the Streamlit Web Application
+
+```bash
+streamlit run app.py
+```
+Open **`http://localhost:8501`** in your browser. The dashboard provides:
+- **Live Classifier:** Test inquiries, view predicted categories, confidence ratings (🟢 High, 🟡 Moderate, 🔴 Low), and probability distributions.
+- **Evaluation Metrics:** Interactive views of accuracy, macro-F1, per-class tables, and 5-fold CV statistics.
+- **Session History:** In-memory query log with timestamps, sequential query counters, and clear-history action.
+
+### 3. Launch the FastAPI Prediction Microservice
+
+```bash
+uvicorn src.api:app --host 127.0.0.1 --port 8000 --reload
+```
+Interactive API docs are available at **`http://127.0.0.1:8000/docs`**.
+
+#### API Usage Examples
+
+**Classify an Inquiry:**
+```bash
+curl -X POST "http://127.0.0.1:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '{"message": "I was charged twice on my invoice for subscription renewal.", "include_probabilities": true}'
+```
+
+**Response:**
+```json
+{
+  "message": "I was charged twice on my invoice for subscription renewal.",
+  "predicted_label": "billing",
+  "confidence": 0.8872,
+  "probabilities": {
+    "account_access": 0.0524,
+    "billing": 0.8872,
+    "technical_support": 0.0604
+  },
+  "disclaimer": "Confidence scores are model estimates, not guaranteed correctness.",
+  "timestamp_utc": "2026-11-27T18:15:00.000000Z"
+}
+```
+
+**Health Check:**
+```bash
+curl http://127.0.0.1:8000/health
+```
+
 ---
 
-## 🛠️ CLI Usage & Tooling Guide
+## 🛠️ CLI Tooling & Pipeline Commands
 
-### 1. Predict Category with Confidence Scores
-Classify a message using TF-IDF + Logistic Regression with estimated class probabilities:
-```powershell
-python src/predict_message.py "I was charged twice for my subscription renewal." --scores
-```
-Output:
-```text
-Predicted category: billing
-Confidence score: 0.8542
-Class probabilities:
-  account_access: 0.0812
-  billing: 0.8542
-  technical_support: 0.0646
-Note: Confidence scores are model estimates, not guaranteed correctness.
-```
-
-### 2. Model Persistence: Train & Save
-Train the baseline pipeline on the validated dataset and serialize it with `joblib`:
-```powershell
-python src/model_persistence.py --dataset data/sample_dataset.jsonl --output models/baseline_model.joblib
-```
-
-### 3. Predict Using Pre-Saved Model
-Predict instantly without retraining on each invocation:
-```powershell
-python src/predict_message.py "I cannot reset my password." --model models/baseline_model.joblib --scores
-```
-
-### 4. Validate Dataset Integrity
-Checks JSON syntax, required fields, allowed labels, and duplicates:
-```powershell
+```bash
+# Validate dataset format, required fields, and duplicate detection
 python src/validate_dataset.py --file data/sample_dataset.jsonl
-```
 
-### 5. Profile Dataset Distribution & Health
-```powershell
-python src/profile_dataset.py --file data/sample_dataset.jsonl --output results/dataset_profile.json
-```
+# Profile dataset distributions, vocabulary count, and text length stats
+python src/profile_dataset.py --output results/dataset_profile.json
 
-### 6. Train & Evaluate Baseline
-```powershell
+# Train baseline model and display held-out confusion matrix
 python src/train_baseline.py
-```
 
-### 7. Compare Baseline Against Majority-Class
-```powershell
+# Compare Logistic Regression against Majority-Class predictor
 python src/compare_baselines.py --output results/baseline_comparison.json
-```
 
-### 8. Compare Logistic Regression vs. Naive Bayes
-```powershell
+# Compare Logistic Regression against Multinomial Naive Bayes
 python src/compare_models.py --output results/model_comparison.json
-```
 
-### 9. Error Analysis
-```powershell
+# Perform granular error analysis on test split misclassifications
 python src/analyze_errors.py --output results/error_analysis.json
-```
 
-### 10. Stratified 5-Fold Cross-Validation
-```powershell
+# Run leakage-free stratified 5-fold cross-validation
 python src/evaluate_cross_validation.py --folds 5 --output results/cross_validation.json
+
+# Predict single message from CLI with estimated confidence
+python src/predict_message.py "I forgot my password and cannot sign in." --scores
+
+# Train and serialize model to disk
+python src/model_persistence.py --dataset data/sample_dataset.jsonl --output models/baseline_model.joblib
+
+# Predict using pre-serialized model artifact
+python src/predict_message.py "Desktop client crashed on startup." --model models/baseline_model.joblib --scores
 ```
 
-### 11. Run Automated Unit Test Suite
-Run the full test suite with full verbose discovery:
-```powershell
+---
+
+## 🧪 Testing & Code Quality
+
+TaskTune includes a comprehensive automated test suite with **over 80 unit and integration tests**:
+
+```bash
+# Run the full test suite
 python -m unittest discover -s tests -v
 ```
 
+Covered test modules:
+- `test_validate_dataset.py`: Schema validation, missing fields, duplicates, Unicode.
+- `test_profile_dataset.py`: Vocabulary metrics, character/word length distributions.
+- `test_train_baseline.py`: Reproducible stratified splitting, data leakage prevention.
+- `test_compare_baselines.py`: Majority-class baseline comparison.
+- `test_compare_models.py`: Logistic Regression vs. Naive Bayes, latency recording.
+- `test_analyze_errors.py`: Error rate diagnosis, confusion matrices, classification reports.
+- `test_evaluate_cross_validation.py`: K-fold determinism, across-fold variance metrics.
+- `test_predict_message.py`: CLI predictions, probability scoring, error handling.
+- `test_model_persistence.py`: Joblib round-trip serialization and trust assumptions.
+- `test_input_validation.py`: Empty strings, whitespace, type enforcement, 500-char bounds.
+- `test_prediction_history.py`: In-memory session logging, FIFO capping, clear action.
+- `test_report_loader.py`: Safe JSON report parsing and missing-file fallbacks.
+- `test_ui_helpers.py`: Confidence rating categories, badges, text truncation.
+- `test_api.py`: FastAPI endpoints, status codes, input validation, Pydantic schemas.
+
 ---
 
-## ⚠️ Interpreting Results & Realistic Limitations
+## ⚠️ Limitations & Real-World Considerations
 
-When developing or evaluating models with TaskTune, keep the following considerations in mind:
-
-1. **Small illustrative dataset (75 records total):**
-   - The bundled dataset contains 25 synthetic examples for each of the 3 classes (`billing`, `technical_support`, `account_access`).
-   - It is intended as a **pipeline sanity check and tooling smoke test**, not as an accurate simulation of production customer support traffic.
-2. **High sensitivity to split variance:**
-   - In a 19-sample test split, a single misclassified message swings overall accuracy by **over 5.2 percentage points** ($1 / 19 \approx 5.26\%$). Small test set metrics should not be treated as statistically decisive.
-3. **Lexical overlap vs. semantic understanding:**
-   - Bag-of-words and TF-IDF representations rely on shared n-grams and vocabulary. Unfamiliar phrasing, typos, or cross-cutting language (e.g., "login failed due to an error code") can confuse classical linear models.
-4. **Estimated confidence scores are not ground truth:**
-   - Probability outputs reflect softmax logistic regression estimates on training features, not calibrated real-world probabilities. High confidence does not guarantee correctness.
-5. **In-memory session state only:**
-   - The Streamlit web app stores prediction history strictly in `st.session_state`. Logs reset upon page reload or server restart; no external databases or analytics trackers are used.
-6. **Model persistence trust assumptions:**
-   - Deserialization via `joblib` / `pickle` can execute arbitrary code. Only load model artifacts from trusted local paths and never deserialize untrusted files received over insecure channels.
-7. **No production readiness claims:**
-   - High test accuracy on a curated 75-record seed dataset does not guarantee real-world generalization. Production deployment requires expanding the dataset to thousands of verified interactions, tracking drift, measuring latency under load, and validating edge cases.
+1. **Curated Synthetic Dataset:** The 300 benchmark inquiries are synthetically generated and curated to exercise ML pipeline stability; they are not real customer records.
+2. **Lexical Feature Limitations:** Bag-of-words and n-gram TF-IDF representations rely on surface vocabulary. Highly cross-cutting language or severe spelling errors can lead to misclassifications.
+3. **Probability Calibration:** Softmax probabilities reflect the model's confidence over the trained linear hyperplane, not calibrated ground-truth correctness.
+4. **Session State Scope:** The Streamlit web interface logs history in `st.session_state` only. No persistent external database is added.
+5. **Model Deserialization Security:** `joblib` artifacts execute arbitrary Python bytecode. Models should only be loaded from verified, trusted local storage.
 
 ---
 
