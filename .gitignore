@@ -58,3 +58,4 @@ dist/
 # Temporary and scratch files
 *.tmp
 *.temp
+scratch/
