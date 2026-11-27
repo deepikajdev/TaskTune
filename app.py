@@ -68,10 +68,10 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Baseline Architecture")
     st.markdown(
-        "- **Vectorization:** TF-IDF (word n-grams)\n"
+        "- **Vectorization:** TF-IDF (word n-grams 1-2)\n"
         "- **Classifier:** Logistic Regression\n"
         "- **Training seed:** 42 (deterministic)\n"
-        "- **Dataset:** 75 illustrative inquiries"
+        "- **Dataset:** 300 curated synthetic inquiries"
     )
 
     st.markdown("---")
@@ -91,7 +91,7 @@ st.markdown(
 tab_predict, tab_metrics, tab_history = st.tabs([
     "💬 Live Classifier",
     "📊 Evaluation Metrics",
-    f"📜 Session History ({len(st.session_state.history)})",
+    "📜 Session History",
 ])
 
 # ── TAB 1: Live Classifier ────────────────────────────────────────────────────
@@ -173,7 +173,7 @@ with tab_predict:
                     st.caption(
                         "ℹ️ **Confidence disclaimer:** Scores are model estimates from softmax "
                         "logistic regression, not guaranteed real-world correctness. "
-                        "The model is trained on a 75-example illustrative seed dataset."
+                        "The model is trained on a 300-example curated benchmark dataset."
                     )
 
 # ── TAB 2: Evaluation Metrics ─────────────────────────────────────────────────
@@ -251,6 +251,8 @@ with tab_history:
     else:
         for entry in reversed(st.session_state.history):
             e_emoji = get_label_emoji(entry["predicted_label"])
+            conf = entry.get("confidence", 1.0)
+            rating_text, rating_icon = get_confidence_rating(conf)
             with st.container(border=True):
                 hc1, hc2 = st.columns([3, 1])
                 with hc1:
@@ -258,7 +260,7 @@ with tab_history:
                     st.write(entry["message"])
                 with hc2:
                     st.markdown(f"### {e_emoji} `{entry['predicted_label']}`")
-                    st.caption(f"Confidence: {entry['confidence']:.1%}")
+                    st.caption(f"Confidence: {conf:.1%} · {rating_icon} {rating_text}")
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("---")
