@@ -16,7 +16,12 @@ import sys
 from typing import Any
 
 import sklearn
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    precision_recall_fscore_support,
+)
 from sklearn.model_selection import train_test_split
 
 if __package__:
@@ -112,6 +117,14 @@ def analyze_errors(
     accuracy = float(accuracy_score(test_labels, predicted_labels))
     error_rate = float(total_errors / total_test) if total_test > 0 else 0.0
 
+    macro_precision, macro_recall, macro_f1, _ = precision_recall_fscore_support(
+        test_labels, predicted_labels, average="macro", zero_division=0
+    )
+    conf_matrix = confusion_matrix(test_labels, predicted_labels, labels=label_order).tolist()
+    clf_report = classification_report(
+        test_labels, predicted_labels, labels=label_order, output_dict=True, zero_division=0
+    )
+
     return {
         "metadata": {
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -131,7 +144,12 @@ def analyze_errors(
             "total_errors": total_errors,
             "accuracy": accuracy,
             "error_rate": error_rate,
+            "macro_precision": float(macro_precision),
+            "macro_recall": float(macro_recall),
+            "macro_f1": float(macro_f1),
         },
+        "confusion_matrix": conf_matrix,
+        "classification_report": clf_report,
         "per_class_error_counts": per_class_error_counts,
         "misclassified_examples": misclassified_examples,
         "test_predictions": test_predictions,
