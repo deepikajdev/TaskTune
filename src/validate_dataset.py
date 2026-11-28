@@ -26,6 +26,43 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 ALLOWED_LABELS: Set[str] = {"billing", "technical_support", "account_access"}
 
 
+def clean_text(text: str) -> str:
+    """Normalize and preprocess raw inquiry text.
+
+    Performs deterministic, reproducible text cleaning:
+    - Normalizes internal whitespace and strips outer margins.
+    - Preserves case for feature extraction while standardizing spacing.
+    - Handles Unicode quotes and dashes consistently.
+    """
+    if not isinstance(text, str):
+        return ""
+    # Standardize common unicode quotation variants
+    normalized = (
+        text.replace("\u2018", "'")
+        .replace("\u2019", "'")
+        .replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("\u2013", "-")
+        .replace("\u2014", "-")
+    )
+    return " ".join(normalized.strip().split())
+
+
+def calculate_class_distribution(
+    label_counts: Dict[str, int], total_examples: int
+) -> Dict[str, Dict[str, Any]]:
+    """Compute count, percentage, and balance metrics for each label."""
+    distribution: Dict[str, Dict[str, Any]] = {}
+    for label, count in sorted(label_counts.items()):
+        percentage = (count / total_examples * 100.0) if total_examples > 0 else 0.0
+        distribution[label] = {
+            "count": count,
+            "percentage": round(percentage, 2),
+            "ratio": round(count / total_examples, 4) if total_examples > 0 else 0.0,
+        }
+    return distribution
+
+
 def validate_dataset(
     file_path: Path | str,
     allowed_labels: Optional[Set[str]] = None,
@@ -146,9 +183,11 @@ def validate_dataset(
         total_examples += 1
 
     is_valid = len(errors) == 0
+    distribution = calculate_class_distribution(dict(label_counts), total_examples)
     report = {
         "total_examples": total_examples,
         "label_counts": dict(label_counts),
+        "class_distribution": distribution,
         "errors": errors,
         "warnings": warnings,
     }

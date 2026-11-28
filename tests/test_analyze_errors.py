@@ -65,6 +65,13 @@ class TestAnalyzeErrors(unittest.TestCase):
             summary["error_rate"],
             summary["total_errors"] / summary["total_test_examples"],
         )
+        self.assertIn("macro_f1", summary)
+        self.assertIn("macro_precision", summary)
+        self.assertIn("macro_recall", summary)
+        self.assertIn("confusion_matrix", results)
+        self.assertIn("classification_report", results)
+        self.assertEqual(len(results["confusion_matrix"]), 3)
+        self.assertTrue(all(len(row) == 3 for row in results["confusion_matrix"]))
 
         # Check per-class error counts match misclassified counts by true label
         per_class = results["per_class_error_counts"]

@@ -8,7 +8,12 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from src.validate_dataset import ALLOWED_LABELS, validate_dataset
+from src.validate_dataset import (
+    ALLOWED_LABELS,
+    calculate_class_distribution,
+    clean_text,
+    validate_dataset,
+)
 
 
 class TestDatasetValidator(unittest.TestCase):
@@ -288,6 +293,33 @@ class TestDatasetValidator(unittest.TestCase):
         self.assertTrue(is_valid)
         self.assertEqual(report["total_examples"], 0)
         self.assertEqual(len(report["warnings"]), 4)
+
+
+    def test_clean_text_preprocessing(self) -> None:
+        """Verify clean_text normalizes whitespace and unicode quotes."""
+        raw = "  \u201cSystem failed\u201d with \t error\n  "
+        cleaned = clean_text(raw)
+        self.assertEqual(cleaned, '"System failed" with error')
+
+    def test_calculate_class_distribution(self) -> None:
+        """Verify class distribution calculates counts, percentages, and ratios."""
+        counts = {"billing": 25, "technical_support": 25, "account_access": 50}
+        dist = calculate_class_distribution(counts, 100)
+        self.assertEqual(dist["billing"]["count"], 25)
+        self.assertEqual(dist["billing"]["percentage"], 25.0)
+        self.assertEqual(dist["account_access"]["ratio"], 0.5)
+
+    def test_report_includes_class_distribution(self) -> None:
+        """Verify validation report contains class_distribution dictionary."""
+        content = (
+            '{"text": "Please refund my payment.", "label": "billing"}\n'
+            '{"text": "The app is crashing on startup.", "label": "technical_support"}\n'
+        )
+        file_path = self._write_jsonl("dist_test.jsonl", content)
+        _, report = validate_dataset(file_path)
+        self.assertIn("class_distribution", report)
+        self.assertEqual(report["class_distribution"]["billing"]["count"], 1)
+        self.assertEqual(report["class_distribution"]["billing"]["percentage"], 50.0)
 
 
 if __name__ == "__main__":

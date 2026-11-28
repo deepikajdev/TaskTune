@@ -1,0 +1,51 @@
+# GitHub Actions CI — TaskTune test suite
+# Triggers on pushes and pull requests to main and feature/* branches.
+# Runs the full pytest suite (106 tests) using the same dependencies as local dev.
+
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+      - "feature/**"
+
+jobs:
+  test:
+    name: Run pytest (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      # Install core deps + API extras + dev tools in one shot so the
+      # FastAPI tests (test_api.py) and httpx client are both available.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install "fastapi>=0.110.0" "uvicorn>=0.28.0" "pydantic>=2.0.0"
+          pip install "pytest>=8.0.0" "httpx>=0.27.0"
+
+      - name: Run test suite
+        run: python -m pytest
+        # pytest reads [tool.pytest.ini_options] from pyproject.toml:
+        #   testpaths = ["tests"]
+        #   python_files = ["test_*.py"]
+        #   addopts = "-v"

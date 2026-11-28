@@ -99,6 +99,23 @@ class TestBaselineExperiment(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Dataset validation failed"):
             load_dataset(self.dataset_path.parent / "missing.jsonl")
 
+    def test_pipeline_vectorizer_fits_only_on_training_data_preventing_leakage(self) -> None:
+        """Verify that vectorizer vocabulary contains only training words, preventing data leakage."""
+        from sklearn.model_selection import train_test_split
+        from src.train_baseline import create_classifier
+
+        train_texts = ["credit card billing charge", "application crash server error"]
+        train_labels = ["billing", "technical_support"]
+        test_texts = ["unseen_vocabulary_term_XYZ"]
+
+        pipeline = create_classifier()
+        pipeline.fit(train_texts, train_labels)
+        vocab = pipeline.named_steps["tfidf"].vocabulary_
+
+        # Verify test-only terms were not learned during vectorizer fitting
+        self.assertNotIn("unseen_vocabulary_term_xyz", vocab)
+        self.assertIn("billing", vocab)
+
 
 if __name__ == "__main__":
     unittest.main()

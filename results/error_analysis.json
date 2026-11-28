@@ -1,9 +1,59 @@
 {
+  "classification_report": {
+    "account_access": {
+      "f1-score": 0.9166666666666666,
+      "precision": 0.9565217391304348,
+      "recall": 0.88,
+      "support": 25.0
+    },
+    "accuracy": 0.92,
+    "billing": {
+      "f1-score": 0.9019607843137255,
+      "precision": 0.8846153846153846,
+      "recall": 0.92,
+      "support": 25.0
+    },
+    "macro avg": {
+      "f1-score": 0.9199346405228758,
+      "precision": 0.9214046822742475,
+      "recall": 0.9199999999999999,
+      "support": 75.0
+    },
+    "technical_support": {
+      "f1-score": 0.9411764705882353,
+      "precision": 0.9230769230769231,
+      "recall": 0.96,
+      "support": 25.0
+    },
+    "weighted avg": {
+      "f1-score": 0.9199346405228759,
+      "precision": 0.9214046822742475,
+      "recall": 0.92,
+      "support": 75.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      22,
+      2,
+      1
+    ],
+    [
+      1,
+      23,
+      1
+    ],
+    [
+      0,
+      1,
+      24
+    ]
+  ],
   "metadata": {
-    "created_at_utc": "2026-10-14T18:04:31.575082+00:00",
+    "created_at_utc": "2026-11-27T18:11:17.403019+00:00",
     "dataset": "data\\sample_dataset.jsonl",
-    "dataset_examples": 75,
-    "dataset_sha256": "8843f1f21e5c6d7ac23ca4ebe969d3be18523744904f250cde390850197e5164",
+    "dataset_examples": 300,
+    "dataset_sha256": "0ed362b3e96d95d4d49cb877f186d88408ea051aad44c3ee1969ea76f958ad78",
     "label_order": [
       "account_access",
       "billing",
@@ -12,183 +62,592 @@
     "python_version": "3.12.7",
     "random_state": 42,
     "scikit_learn_version": "1.9.1",
-    "test_examples": 19,
+    "test_examples": 75,
     "test_size": 0.25,
-    "train_examples": 56
+    "train_examples": 225
   },
   "misclassified_examples": [
     {
-      "index": 34,
+      "index": 232,
       "is_error": true,
       "predicted_label": "technical_support",
-      "text": "I switched to a lower tier yesterday and want to understand when the new monthly price takes effect.",
+      "text": "Our SAML 2.0 Okta integration is failing with 'Invalid assertion consumer service URL'.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 259,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "How do I re-enable an account that was deactivated by our system administrator last week?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 77,
+      "is_error": true,
+      "predicted_label": "account_access",
+      "text": "How do I switch the primary payment method to PayPal for automatic renewals?",
       "true_label": "billing"
     },
     {
-      "index": 11,
+      "index": 220,
       "is_error": true,
       "predicted_label": "billing",
-      "text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.",
+      "text": "I am still receiving login approval requests for a device I sold last month.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 190,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "Our webhook endpoint receives duplicate event deliveries for the exact same event ID.",
       "true_label": "technical_support"
     },
     {
-      "index": 46,
+      "index": 47,
       "is_error": true,
-      "predicted_label": "billing",
-      "text": "Images attached to support tickets appear as broken links for everyone on our team.",
-      "true_label": "technical_support"
-    },
-    {
-      "index": 55,
-      "is_error": true,
-      "predicted_label": "account_access",
-      "text": "Our saved dashboard view resets to the default filters every time I sign back in.",
-      "true_label": "technical_support"
+      "predicted_label": "technical_support",
+      "text": "The currency on our checkout page is defaulting to GBP instead of USD.",
+      "true_label": "billing"
     }
   ],
   "per_class_error_counts": {
-    "account_access": 0,
-    "billing": 1,
-    "technical_support": 3
+    "account_access": 3,
+    "billing": 2,
+    "technical_support": 1
   },
   "summary": {
-    "accuracy": 0.7894736842105263,
-    "error_rate": 0.21052631578947367,
-    "total_errors": 4,
-    "total_test_examples": 19
+    "accuracy": 0.92,
+    "error_rate": 0.08,
+    "macro_f1": 0.9199346405228758,
+    "macro_precision": 0.9214046822742475,
+    "macro_recall": 0.9199999999999999,
+    "total_errors": 6,
+    "total_test_examples": 75
   },
   "test_predictions": [
+    {
+      "index": 27,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Can you remove the expired credit card ending in 4112 from my billing profile?",
+      "true_label": "billing"
+    },
+    {
+      "index": 237,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "The password reset link provided in the email gives an 'expired token' error immediately.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 257,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "Why does my account indicate that my trial has expired when our admin invited me to a paid team?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 263,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I was removed from our workspace accidentally; can my previous access permissions be restored?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 275,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "The verification code email is taking over 20 minutes to arrive, by which time the code has expired.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 154,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Audio recorded inside the browser has severe distortion and background robotic buzzing.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 6,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "I would like to request a prorated refund since I downgraded from Enterprise to Pro halfway through the month.",
+      "true_label": "billing"
+    },
+    {
+      "index": 252,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "Can you resend the team invitation email to my coworker whose invite link got deleted by spam filters?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 4,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "I cancelled my subscription three days ago, but money was still deducted from my bank account.",
+      "true_label": "billing"
+    },
+    {
+      "index": 80,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Why was our account charged an international foreign transaction conversion fee?",
+      "true_label": "billing"
+    },
+    {
+      "index": 118,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Notifications are arriving several hours after the events they refer to.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 110,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The settings page freezes when I try to save a new notification rule in our workspace.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 155,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The syntax highlighting parser crashes when rendering markdown code blocks with TypeScript.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 2,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "I was double billed for my annual plan renewal yesterday. How do I get a refund?",
+      "true_label": "billing"
+    },
+    {
+      "index": 196,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The application hangs indefinitely on the splash screen when launched without an active internet connection.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 168,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Batch email delivery fails with SMTP connection refused on port 587.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 97,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Why was our account charged for 12 seats when our user management list only shows 10 active members?",
+      "true_label": "billing"
+    },
+    {
+      "index": 61,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Can you re-invoice us in Euros rather than US Dollars for European tax compliance?",
+      "true_label": "billing"
+    },
     {
       "index": 36,
       "is_error": false,
       "predicted_label": "billing",
-      "text": "We paid the outstanding invoice by bank transfer. Can you confirm it was matched to our account?",
+      "text": "I would like to cancel my trial before the automatic billing cycle begins tomorrow.",
       "true_label": "billing"
     },
     {
-      "index": 26,
+      "index": 294,
       "is_error": false,
       "predicted_label": "account_access",
-      "text": "How do I revoke active login sessions on other devices after suspecting a security compromise?",
+      "text": "The magic link login email is blocked by our corporate email quarantine gateway.",
       "true_label": "account_access"
     },
     {
-      "index": 27,
-      "is_error": false,
-      "predicted_label": "account_access",
-      "text": "The verification SMS code for login is not being delivered to my registered mobile number.",
-      "true_label": "account_access"
-    },
-    {
-      "index": 34,
-      "is_error": true,
-      "predicted_label": "technical_support",
-      "text": "I switched to a lower tier yesterday and want to understand when the new monthly price takes effect.",
-      "true_label": "billing"
-    },
-    {
-      "index": 31,
+      "index": 32,
       "is_error": false,
       "predicted_label": "billing",
-      "text": "Could you add our purchase order number to the invoice for this month's subscription?",
+      "text": "Can you refund the overdraft fee caused by an unexpected billing retry?",
       "true_label": "billing"
     },
     {
-      "index": 17,
+      "index": 137,
       "is_error": false,
       "predicted_label": "technical_support",
-      "text": "API requests to the /v1/users endpoint are consistently returning a 504 Gateway Timeout.",
+      "text": "The table pagination controls become unresponsive after navigating past page five.",
       "true_label": "technical_support"
     },
     {
+      "index": 232,
+      "is_error": true,
+      "predicted_label": "technical_support",
+      "text": "Our SAML 2.0 Okta integration is failing with 'Invalid assertion consumer service URL'.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 259,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "How do I re-enable an account that was deactivated by our system administrator last week?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 152,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Push notifications are arriving on employee phones with a delay of over 45 minutes.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 291,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I keep getting an 'invalid session credentials' error when switching between my laptop and mobile app.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 287,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "How do I invite external clients with restricted view-only permissions to specific project folders?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 0,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "I noticed an unexpected charge of $49 on my monthly invoice that I did not authorize.",
+      "true_label": "billing"
+    },
+    {
+      "index": 115,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Keyboard shortcuts stopped responding in the editor after I updated the browser.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 40,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "I upgraded our plan three days ago but the pro-rata credit has not been applied.",
+      "true_label": "billing"
+    },
+    {
+      "index": 96,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Can we adjust our billing cycle date so all our vendor invoices arrive on the 1st of the month?",
+      "true_label": "billing"
+    },
+    {
+      "index": 223,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I signed out everywhere, but one browser session still appears as active in my security settings.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 77,
+      "is_error": true,
+      "predicted_label": "account_access",
+      "text": "How do I switch the primary payment method to PayPal for automatic renewals?",
+      "true_label": "billing"
+    },
+    {
+      "index": 195,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The system fails to process incoming emails with attachments larger than 8MB.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 229,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "My Google Single Sign-On (SSO) login fails with an 'unauthorized_client' error message.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 33,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Our billing address changed after an office relocation; where can I update our company tax info?",
+      "true_label": "billing"
+    },
+    {
+      "index": 71,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Can you consolidate our three separate department invoices into a single master statement?",
+      "true_label": "billing"
+    },
+    {
+      "index": 172,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Real-time cursors of team members jump erratically across the canvas during collaborative sessions.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 174,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Connecting external Bluetooth headphones causes audio input playback in the app to stop working.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 282,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I am unable to unlink my GitHub account from my TaskTune login profile.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 180,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "File download links expire after 30 seconds before large asset downloads can finish transferring.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 271,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "How can I download a comprehensive audit log of all logins and IP addresses for my account?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 158,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Keyboard focus is trapped inside modal dialog boxes and cannot be closed with the Escape key.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 220,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "I am still receiving login approval requests for a device I sold last month.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 274,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "Where can I view which third-party OAuth applications currently have access to my user data?",
+      "true_label": "account_access"
+    },
+    {
       "index": 64,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Please refund the accidental purchase of 5 extra collaborator seats made by our intern.",
+      "true_label": "billing"
+    },
+    {
+      "index": 72,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Why did our credit card payment fail with code 'insufficient_funds' when funds are available?",
+      "true_label": "billing"
+    },
+    {
+      "index": 169,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The date picker calendar renders off-screen and cannot be clicked on mobile viewport widths.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 251,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "The single sign-on login page is stuck in an infinite redirect loop between our IdP and TaskTune.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 190,
+      "is_error": true,
+      "predicted_label": "billing",
+      "text": "Our webhook endpoint receives duplicate event deliveries for the exact same event ID.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 202,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "My account has been locked after three incorrect PIN attempts. Please help me unlock it.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 116,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The activity timeline displays events in the wrong order when I filter by date.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 221,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "The email address on my account has a typo, so I cannot verify ownership of the profile.",
+      "true_label": "account_access"
+    },
+    {
+      "index": 95,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Our department credit card was cancelled due to fraud; how do we update payment details without downtime?",
+      "true_label": "billing"
+    },
+    {
+      "index": 100,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The web application keeps crashing with error code 500 whenever I try to export my CSV report.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 214,
       "is_error": false,
       "predicted_label": "account_access",
       "text": "The identity provider says sign-in succeeded, but TaskTune sends me back to the login screen.",
       "true_label": "account_access"
     },
     {
-      "index": 35,
-      "is_error": false,
-      "predicted_label": "billing",
-      "text": "The invoice lists two active seats for a coworker who left our company last month.",
-      "true_label": "billing"
-    },
-    {
-      "index": 40,
-      "is_error": false,
-      "predicted_label": "billing",
-      "text": "Can our finance team receive one combined invoice instead of separate charges for each workspace?",
-      "true_label": "billing"
-    },
-    {
-      "index": 9,
-      "is_error": false,
-      "predicted_label": "billing",
-      "text": "My coupon code SAVE20 was not applied during checkout and I was charged the full price.",
-      "true_label": "billing"
-    },
-    {
-      "index": 49,
+      "index": 131,
       "is_error": false,
       "predicted_label": "technical_support",
-      "text": "Our integration started returning an authentication error even though the API key has not changed.",
+      "text": "My desktop client crashes with an unhandled memory segmentation fault on macOS Sonoma.",
       "true_label": "technical_support"
     },
     {
-      "index": 11,
-      "is_error": true,
+      "index": 43,
+      "is_error": false,
       "predicted_label": "billing",
+      "text": "Does your subscription pricing include applicable GST/HST for Canadian customers?",
+      "true_label": "billing"
+    },
+    {
+      "index": 11,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Could you add our purchase order number to the invoice for this month's subscription?",
+      "true_label": "billing"
+    },
+    {
+      "index": 191,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The search filter by date range returns records from the day before the selected start date.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 286,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "Can an organization owner bypass 2FA for a user who broke their physical security key?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 143,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "Our Zapier integration stopped receiving trigger payloads after the platform maintenance update.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 34,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Can I pay for my annual subscription using a purchase order and invoice with net-30 terms?",
+      "true_label": "billing"
+    },
+    {
+      "index": 22,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "Please explain the extra usage charge on our statement; we did not expect to exceed the plan allowance.",
+      "true_label": "billing"
+    },
+    {
+      "index": 7,
+      "is_error": false,
+      "predicted_label": "billing",
+      "text": "My payment failed this morning, but my card is active. How can I retry the transaction?",
+      "true_label": "billing"
+    },
+    {
+      "index": 167,
+      "is_error": false,
+      "predicted_label": "technical_support",
+      "text": "The dark mode theme resets to default light mode upon navigating to any sub-page.",
+      "true_label": "technical_support"
+    },
+    {
+      "index": 292,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "Is it possible to disable password login entirely and mandate SAML SSO for all team members?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 201,
+      "is_error": false,
+      "predicted_label": "account_access",
+      "text": "I got a new phone and lost access to my two-factor authenticator app. How can I recover my account?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 101,
+      "is_error": false,
+      "predicted_label": "technical_support",
       "text": "After the latest update, the dashboard is stuck on a continuous loading spinner and will not render.",
       "true_label": "technical_support"
     },
     {
-      "index": 54,
+      "index": 260,
       "is_error": false,
+      "predicted_label": "account_access",
+      "text": "Can I use both an authenticator app and SMS verification as backup 2FA methods simultaneously?",
+      "true_label": "account_access"
+    },
+    {
+      "index": 47,
+      "is_error": true,
       "predicted_label": "technical_support",
-      "text": "The calendar integration duplicates each meeting when it syncs with Outlook.",
-      "true_label": "technical_support"
+      "text": "The currency on our checkout page is defaulting to GBP instead of USD.",
+      "true_label": "billing"
     },
     {
       "index": 46,
-      "is_error": true,
+      "is_error": false,
       "predicted_label": "billing",
-      "text": "Images attached to support tickets appear as broken links for everyone on our team.",
-      "true_label": "technical_support"
+      "text": "How do I apply a startup promotional credit voucher to our current balance?",
+      "true_label": "billing"
     },
     {
-      "index": 16,
+      "index": 123,
       "is_error": false,
       "predicted_label": "technical_support",
-      "text": "The mobile app audio output is muted during video playback on Android devices.",
+      "text": "Search results include archived projects even when the archived-items option is turned off.",
       "true_label": "technical_support"
     },
     {
-      "index": 60,
+      "index": 189,
       "is_error": false,
-      "predicted_label": "account_access",
-      "text": "I no longer have access to the email address where password reset links are sent.",
-      "true_label": "account_access"
-    },
-    {
-      "index": 55,
-      "is_error": true,
-      "predicted_label": "account_access",
-      "text": "Our saved dashboard view resets to the default filters every time I sign back in.",
+      "predicted_label": "technical_support",
+      "text": "The desktop application installer fails on Windows with an 'invalid digital signature' warning.",
       "true_label": "technical_support"
     },
     {
-      "index": 68,
+      "index": 284,
       "is_error": false,
       "predicted_label": "account_access",
-      "text": "I can sign in on my laptop, but my new tablet keeps saying my credentials are incorrect.",
-      "true_label": "account_access"
-    },
-    {
-      "index": 70,
-      "is_error": false,
-      "predicted_label": "account_access",
-      "text": "I am still receiving login approval requests for a device I sold last month.",
+      "text": "Where do I enter the one-time backup recovery codes when my authentication device is offline?",
       "true_label": "account_access"
     }
   ]

@@ -3,184 +3,184 @@
     {
       "fold": 1,
       "metrics": {
-        "accuracy": 0.8,
-        "macro_f1": 0.791919191919192,
+        "accuracy": 0.95,
+        "macro_f1": 0.9495622263914947,
         "per_class": {
           "account_access": {
-            "f1": 0.9090909090909091,
-            "precision": 0.8333333333333334,
-            "recall": 1.0,
-            "support": 5
+            "f1": 0.9230769230769231,
+            "precision": 0.9473684210526315,
+            "recall": 0.9,
+            "support": 20
           },
           "billing": {
-            "f1": 0.6666666666666666,
-            "precision": 0.75,
-            "recall": 0.6,
-            "support": 5
+            "f1": 0.95,
+            "precision": 0.95,
+            "recall": 0.95,
+            "support": 20
           },
           "technical_support": {
-            "f1": 0.8,
-            "precision": 0.8,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.975609756097561,
+            "precision": 0.9523809523809523,
+            "recall": 1.0,
+            "support": 20
           }
         }
       },
       "test_class_counts": {
-        "account_access": 5,
-        "billing": 5,
-        "technical_support": 5
+        "account_access": 20,
+        "billing": 20,
+        "technical_support": 20
       },
-      "test_examples": 15,
-      "train_examples": 60
+      "test_examples": 60,
+      "train_examples": 240
     },
     {
       "fold": 2,
       "metrics": {
-        "accuracy": 0.8666666666666667,
-        "macro_f1": 0.865993265993266,
+        "accuracy": 0.95,
+        "macro_f1": 0.9499164578111946,
         "per_class": {
           "account_access": {
-            "f1": 0.8,
-            "precision": 0.8,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.9523809523809523,
+            "precision": 0.9090909090909091,
+            "recall": 1.0,
+            "support": 20
           },
           "billing": {
-            "f1": 0.9090909090909091,
-            "precision": 0.8333333333333334,
-            "recall": 1.0,
-            "support": 5
+            "f1": 0.9473684210526315,
+            "precision": 1.0,
+            "recall": 0.9,
+            "support": 20
           },
           "technical_support": {
-            "f1": 0.8888888888888888,
-            "precision": 1.0,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.95,
+            "precision": 0.95,
+            "recall": 0.95,
+            "support": 20
           }
         }
       },
       "test_class_counts": {
-        "account_access": 5,
-        "billing": 5,
-        "technical_support": 5
+        "account_access": 20,
+        "billing": 20,
+        "technical_support": 20
       },
-      "test_examples": 15,
-      "train_examples": 60
+      "test_examples": 60,
+      "train_examples": 240
     },
     {
       "fold": 3,
       "metrics": {
-        "accuracy": 0.8666666666666667,
-        "macro_f1": 0.8666666666666667,
+        "accuracy": 0.9166666666666666,
+        "macro_f1": 0.9158015426308109,
         "per_class": {
           "account_access": {
-            "f1": 0.8,
-            "precision": 0.8,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.8717948717948718,
+            "precision": 0.8947368421052632,
+            "recall": 0.85,
+            "support": 20
           },
           "billing": {
-            "f1": 0.8,
-            "precision": 0.8,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.9,
+            "precision": 0.9,
+            "recall": 0.9,
+            "support": 20
           },
           "technical_support": {
-            "f1": 1.0,
-            "precision": 1.0,
+            "f1": 0.975609756097561,
+            "precision": 0.9523809523809523,
             "recall": 1.0,
-            "support": 5
+            "support": 20
           }
         }
       },
       "test_class_counts": {
-        "account_access": 5,
-        "billing": 5,
-        "technical_support": 5
+        "account_access": 20,
+        "billing": 20,
+        "technical_support": 20
       },
-      "test_examples": 15,
-      "train_examples": 60
+      "test_examples": 60,
+      "train_examples": 240
     },
     {
       "fold": 4,
       "metrics": {
-        "accuracy": 0.9333333333333333,
-        "macro_f1": 0.9326599326599326,
+        "accuracy": 0.8833333333333333,
+        "macro_f1": 0.8827838827838828,
         "per_class": {
           "account_access": {
-            "f1": 0.9090909090909091,
-            "precision": 0.8333333333333334,
-            "recall": 1.0,
-            "support": 5
+            "f1": 0.9047619047619048,
+            "precision": 0.8636363636363636,
+            "recall": 0.95,
+            "support": 20
           },
           "billing": {
-            "f1": 1.0,
-            "precision": 1.0,
-            "recall": 1.0,
-            "support": 5
+            "f1": 0.8717948717948718,
+            "precision": 0.8947368421052632,
+            "recall": 0.85,
+            "support": 20
           },
           "technical_support": {
-            "f1": 0.8888888888888888,
-            "precision": 1.0,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.8717948717948718,
+            "precision": 0.8947368421052632,
+            "recall": 0.85,
+            "support": 20
           }
         }
       },
       "test_class_counts": {
-        "account_access": 5,
-        "billing": 5,
-        "technical_support": 5
+        "account_access": 20,
+        "billing": 20,
+        "technical_support": 20
       },
-      "test_examples": 15,
-      "train_examples": 60
+      "test_examples": 60,
+      "train_examples": 240
     },
     {
       "fold": 5,
       "metrics": {
-        "accuracy": 0.8,
-        "macro_f1": 0.791919191919192,
+        "accuracy": 0.9333333333333333,
+        "macro_f1": 0.9340434419381788,
         "per_class": {
           "account_access": {
-            "f1": 0.6666666666666666,
-            "precision": 0.75,
-            "recall": 0.6,
-            "support": 5
+            "f1": 0.9473684210526315,
+            "precision": 1.0,
+            "recall": 0.9,
+            "support": 20
           },
           "billing": {
-            "f1": 0.9090909090909091,
-            "precision": 0.8333333333333334,
-            "recall": 1.0,
-            "support": 5
+            "f1": 0.9047619047619048,
+            "precision": 0.8636363636363636,
+            "recall": 0.95,
+            "support": 20
           },
           "technical_support": {
-            "f1": 0.8,
-            "precision": 0.8,
-            "recall": 0.8,
-            "support": 5
+            "f1": 0.95,
+            "precision": 0.95,
+            "recall": 0.95,
+            "support": 20
           }
         }
       },
       "test_class_counts": {
-        "account_access": 5,
-        "billing": 5,
-        "technical_support": 5
+        "account_access": 20,
+        "billing": 20,
+        "technical_support": 20
       },
-      "test_examples": 15,
-      "train_examples": 60
+      "test_examples": 60,
+      "train_examples": 240
     }
   ],
   "metadata": {
     "class_counts": {
-      "account_access": 25,
-      "billing": 25,
-      "technical_support": 25
+      "account_access": 100,
+      "billing": 100,
+      "technical_support": 100
     },
-    "created_at_utc": "2026-10-13T17:48:29.600901+00:00",
+    "created_at_utc": "2026-11-27T18:11:29.776361+00:00",
     "dataset": "data\\sample_dataset.jsonl",
-    "dataset_examples": 75,
-    "dataset_sha256": "8843f1f21e5c6d7ac23ca4ebe969d3be18523744904f250cde390850197e5164",
+    "dataset_examples": 300,
+    "dataset_sha256": "0ed362b3e96d95d4d49cb877f186d88408ea051aad44c3ee1969ea76f958ad78",
     "evaluation": "StratifiedKFold with shuffle=True",
     "folds": 5,
     "label_order": [
@@ -195,44 +195,44 @@
   },
   "summary": {
     "mean": {
-      "accuracy": 0.8533333333333334,
-      "macro_f1": 0.8498316498316498,
+      "accuracy": 0.9266666666666666,
+      "macro_f1": 0.9264215103111123,
       "per_class": {
         "account_access": {
-          "f1": 0.816969696969697,
-          "precision": 0.8033333333333333,
-          "recall": 0.84
+          "f1": 0.9198766146134567,
+          "precision": 0.9229665071770334,
+          "recall": 0.92
         },
         "billing": {
-          "f1": 0.8569696969696969,
-          "precision": 0.8433333333333334,
-          "recall": 0.88
+          "f1": 0.9147850395218816,
+          "precision": 0.9216746411483253,
+          "recall": 0.91
         },
         "technical_support": {
-          "f1": 0.8755555555555555,
-          "precision": 0.92,
-          "recall": 0.8400000000000001
+          "f1": 0.9446028767979987,
+          "precision": 0.9398997493734336,
+          "recall": 0.95
         }
       }
     },
     "population_std": {
-      "accuracy": 0.04988876515698588,
-      "macro_f1": 0.05312785639943911,
+      "accuracy": 0.02494438257849294,
+      "macro_f1": 0.02515005125326004,
       "per_class": {
         "account_access": {
-          "f1": 0.08959863569733978,
-          "precision": 0.030550504633038947,
-          "recall": 0.14966629547095767
+          "f1": 0.029539403567516297,
+          "precision": 0.046987497405515465,
+          "recall": 0.05099019513592785
         },
         "billing": {
-          "f1": 0.11432558664292457,
-          "precision": 0.08406346808612326,
-          "recall": 0.16
+          "f1": 0.02989643904792189,
+          "precision": 0.04796053489290608,
+          "recall": 0.0374165738677394
         },
         "technical_support": {
-          "f1": 0.07383665655927175,
-          "precision": 0.0979795897113271,
-          "recall": 0.07999999999999999
+          "f1": 0.0381631146476431,
+          "precision": 0.022606544076360098,
+          "recall": 0.05477225575051662
         }
       }
     }

@@ -73,6 +73,10 @@ class TestCompareModels(unittest.TestCase):
             self.assertEqual(sum(map(sum, metrics["confusion_matrix"])), 3)
             self.assertTrue(0 <= metrics["accuracy"] <= 1)
             self.assertTrue(0 <= metrics["macro_f1"] <= 1)
+            self.assertIn("inference_time_seconds", metrics)
+            self.assertIn("latency_ms_per_sample", metrics)
+            self.assertGreaterEqual(metrics["inference_time_seconds"], 0.0)
+            self.assertGreaterEqual(metrics["latency_ms_per_sample"], 0.0)
 
     def test_comparison_summary(self) -> None:
         results = compare_models(
@@ -90,8 +94,15 @@ class TestCompareModels(unittest.TestCase):
 
         self.assertEqual(run1["metadata"]["train_indices"], run2["metadata"]["train_indices"])
         self.assertEqual(run1["metadata"]["test_indices"], run2["metadata"]["test_indices"])
-        self.assertEqual(run1["models"], run2["models"])
-        self.assertEqual(run1["comparison_summary"], run2["comparison_summary"])
+        for model_name in ("logistic_regression", "multinomial_nb"):
+            m1 = run1["models"][model_name]["metrics"]
+            m2 = run2["models"][model_name]["metrics"]
+            self.assertEqual(m1["accuracy"], m2["accuracy"])
+            self.assertEqual(m1["macro_f1"], m2["macro_f1"])
+            self.assertEqual(m1["per_class"], m2["per_class"])
+            self.assertEqual(m1["confusion_matrix"], m2["confusion_matrix"])
+        self.assertEqual(run1["comparison_summary"]["accuracy_diff"], run2["comparison_summary"]["accuracy_diff"])
+        self.assertEqual(run1["comparison_summary"]["higher_accuracy_model"], run2["comparison_summary"]["higher_accuracy_model"])
 
     def test_save_results(self) -> None:
         results = compare_models(self.dataset_path, test_size=0.25, random_state=42)
